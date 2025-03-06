@@ -3,6 +3,10 @@ import { useTranslate } from '@/hooks/common-hooks';
 import { useSelectLlmOptionsByModelType } from '@/hooks/llm-hooks';
 import { Select as AntSelect, Form, Slider } from 'antd';
 import { useFormContext } from 'react-hook-form';
+<<<<<<< HEAD
+=======
+import { SingleFormSlider } from './ui/dual-range-slider';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import {
   FormControl,
   FormField,
@@ -19,7 +23,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
+<<<<<<< HEAD
 import { FormSlider } from './ui/slider';
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 type FieldType = {
   rerank_id?: string;
@@ -92,7 +99,10 @@ function RerankFormField() {
           <FormControl>
             <Select onValueChange={field.onChange} {...field}>
               <SelectTrigger
+<<<<<<< HEAD
                 className="w-[280px]"
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 value={field.value}
                 onReset={() => {
                   form.resetField(RerankId);
@@ -141,7 +151,15 @@ export function RerankFormFields() {
             <FormItem>
               <FormLabel>{t('topK')}</FormLabel>
               <FormControl>
+<<<<<<< HEAD
                 <FormSlider {...field} max={2048} min={1}></FormSlider>
+=======
+                <SingleFormSlider
+                  {...field}
+                  max={2048}
+                  min={1}
+                ></SingleFormSlider>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
               </FormControl>
               <FormMessage />
             </FormItem>

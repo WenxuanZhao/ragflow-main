@@ -9,7 +9,11 @@ import { useCallback } from 'react';
 import { Link, useParams } from 'umi';
 import {
   useGetBeginNodeDataQuery,
+<<<<<<< HEAD
   useGetBeginNodeDataQueryIsEmpty,
+=======
+  useGetBeginNodeDataQueryIsSafe,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 } from '../hooks/use-get-begin-query';
 import {
   useSaveGraph,
@@ -35,7 +39,11 @@ const FlowHeader = ({ showChatDrawer, chatDrawerVisible }: IProps) => {
   const getBeginNodeDataQuery = useGetBeginNodeDataQuery();
   const { showEmbedModal, hideEmbedModal, embedVisible, beta } =
     useShowEmbedModal();
+<<<<<<< HEAD
   const isBeginNodeDataQueryEmpty = useGetBeginNodeDataQueryIsEmpty();
+=======
+  const isBeginNodeDataQuerySafe = useGetBeginNodeDataQueryIsSafe();
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
   const handleShowEmbedModal = useCallback(() => {
     showEmbedModal();
@@ -79,7 +87,11 @@ const FlowHeader = ({ showChatDrawer, chatDrawerVisible }: IProps) => {
           <Button
             type="primary"
             onClick={handleShowEmbedModal}
+<<<<<<< HEAD
             disabled={!isBeginNodeDataQueryEmpty}
+=======
+            disabled={!isBeginNodeDataQuerySafe}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
           >
             <b>{t('embedIntoSite', { keyPrefix: 'common' })}</b>
           </Button>

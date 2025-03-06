@@ -177,7 +177,11 @@ class TableStructureRecognizer(Recognizer):
         colwm = np.min(colwm) if colwm else 0
         crosspage = len(set([b["page_number"] for b in boxes])) > 1
         if crosspage:
+<<<<<<< HEAD
             boxes = Recognizer.sort_X_firstly(boxes, colwm / 2, False)
+=======
+            boxes = Recognizer.sort_X_firstly(boxes, colwm / 2)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         else:
             boxes = Recognizer.sort_C_firstly(boxes, colwm / 2)
         boxes[0]["cn"] = 0

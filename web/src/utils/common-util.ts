@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { LLMFactory } from '@/constants/llm';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { IFactory } from '@/interfaces/database/llm';
 import isObject from 'lodash/isObject';
 import snakeCase from 'lodash/snakeCase';
@@ -36,11 +40,20 @@ export const formatNumberWithThousandsSeparator = (numberStr: string) => {
 };
 
 const orderFactoryList = [
+<<<<<<< HEAD
   'OpenAI',
   'Moonshot',
   'ZHIPU-AI',
   'Ollama',
   'Xinference',
+=======
+  LLMFactory.OpenAI,
+  LLMFactory.Moonshot,
+  LLMFactory.PPIO,
+  LLMFactory.ZhipuAI,
+  LLMFactory.Ollama,
+  LLMFactory.Xinference,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 ];
 
 export const sortLLmFactoryListBySpecifiedOrder = (list: IFactory[]) => {

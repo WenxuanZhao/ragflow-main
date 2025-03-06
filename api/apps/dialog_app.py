@@ -18,6 +18,10 @@ from flask import request
 from flask_login import login_required, current_user
 from api.db.services.dialog_service import DialogService
 from api.db import StatusEnum
+<<<<<<< HEAD
+=======
+from api.db.services.llm_service import TenantLLMService
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 from api.db.services.knowledgebase_service import KnowledgebaseService
 from api.db.services.user_service import TenantService, UserTenantService
 from api import settings
@@ -57,11 +61,14 @@ def set_dialog():
 
     if not prompt_config["system"]:
         prompt_config["system"] = default_prompt["system"]
+<<<<<<< HEAD
     # if len(prompt_config["parameters"]) < 1:
     #     prompt_config["parameters"] = default_prompt["parameters"]
     # for p in prompt_config["parameters"]:
     #     if p["key"] == "knowledge":break
     # else: prompt_config["parameters"].append(default_prompt["parameters"][0])
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     for p in prompt_config["parameters"]:
         if p["optional"]:
@@ -74,22 +81,36 @@ def set_dialog():
         e, tenant = TenantService.get_by_id(current_user.id)
         if not e:
             return get_data_error_result(message="Tenant not found!")
+<<<<<<< HEAD
         kbs = KnowledgebaseService.get_by_ids(req.get("kb_ids"))
         embd_count = len(set([kb.embd_id for kb in kbs]))
         if embd_count != 1:
+=======
+        kbs = KnowledgebaseService.get_by_ids(req.get("kb_ids", []))
+        embd_ids = [TenantLLMService.split_model_name_and_factory(kb.embd_id)[0] for kb in kbs]  # remove vendor suffix for comparison
+        embd_count = len(set(embd_ids))
+        if embd_count > 1:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             return get_data_error_result(message=f'Datasets use different embedding models: {[kb.embd_id for kb in kbs]}"')
 
         llm_id = req.get("llm_id", tenant.llm_id)
         if not dialog_id:
+<<<<<<< HEAD
             if not req.get("kb_ids"):
                 return get_data_error_result(
                     message="Fail! Please select knowledgebase!")
 
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             dia = {
                 "id": get_uuid(),
                 "tenant_id": current_user.id,
                 "name": name,
+<<<<<<< HEAD
                 "kb_ids": req["kb_ids"],
+=======
+                "kb_ids": req.get("kb_ids", []),
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 "description": description,
                 "llm_id": llm_id,
                 "llm_setting": llm_setting,

@@ -22,7 +22,11 @@
         <img alt="Badge Estático" src="https://img.shields.io/badge/Online-Demo-4e6b99">
     </a>
     <a href="https://hub.docker.com/r/infiniflow/ragflow" target="_blank">
+<<<<<<< HEAD
         <img src="https://img.shields.io/badge/docker_pull-ragflow:v0.16.0-brightgreen" alt="docker pull infiniflow/ragflow:v0.16.0">
+=======
+        <img src="https://img.shields.io/badge/docker_pull-ragflow:v0.17.0-brightgreen" alt="docker pull infiniflow/ragflow:v0.17.0">
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     </a>
     <a href="https://github.com/infiniflow/ragflow/releases/latest">
         <img src="https://img.shields.io/github/v/release/infiniflow/ragflow?color=blue&label=Última%20Relese" alt="Última Versão">
@@ -41,7 +45,11 @@
 </h4>
 
 <details open>
+<<<<<<< HEAD
 <summary></b>📕 Índice</b></summary>
+=======
+<summary><b>📕 Índice</b></summary>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 - 💡 [O que é o RAGFlow?](#-o-que-é-o-ragflow)
 - 🎮 [Demo](#-demo)
@@ -75,9 +83,16 @@ Experimente nossa demo em [https://demo.ragflow.io](https://demo.ragflow.io).
 
 ## 🔥 Últimas Atualizações
 
+<<<<<<< HEAD
 - 05-02-2025 Atualiza a lista de modelos de 'SILICONFLOW' e adiciona suporte para Deepseek-R1/DeepSeek-V3.
 - 26-01-2025 Otimize a extração e aplicação de gráficos de conhecimento e forneça uma variedade de opções de configuração.
 - 18-12-2024 Atualiza o modelo de Análise de Layout de Documentos no Deepdoc.
+=======
+- 28/02/2025 combinado com a pesquisa na Internet (T AVI LY), suporta pesquisas profundas para qualquer LLM.
+- 05-02-2025 Atualiza a lista de modelos de 'SILICONFLOW' e adiciona suporte para Deepseek-R1/DeepSeek-V3.
+- 26-01-2025 Otimize a extração e aplicação de gráficos de conhecimento e forneça uma variedade de opções de configuração.
+- 18-12-2024 Atualiza o modelo de Análise de Layout de Documentos no DeepDoc.
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 - 04-12-2024 Adiciona suporte para pontuação de pagerank na base de conhecimento.
 - 22-11-2024 Adiciona mais variáveis para o Agente.
 - 01-11-2024 Adiciona extração de palavras-chave e geração de perguntas relacionadas aos blocos analisados para melhorar a precisão da recuperação.
@@ -166,19 +181,38 @@ Experimente nossa demo em [https://demo.ragflow.io](https://demo.ragflow.io).
 
 3.  Inicie o servidor usando as imagens Docker pré-compiladas:
 
+<<<<<<< HEAD
     > O comando abaixo baixa a edição `v0.16.0-slim` da imagem Docker do RAGFlow. Consulte a tabela a seguir para descrições de diferentes edições do RAGFlow. Para baixar uma edição do RAGFlow diferente da `v0.16.0-slim`, atualize a variável `RAGFLOW_IMAGE` conforme necessário no **docker/.env** antes de usar `docker compose` para iniciar o servidor. Por exemplo: defina `RAGFLOW_IMAGE=infiniflow/ragflow:v0.16.0` para a edição completa `v0.16.0`.
 
     ```bash
     $ cd ragflow
     $ docker compose -f docker/docker-compose.yml up -d
+=======
+> [!CAUTION]
+> Todas as imagens Docker são construídas para plataformas x86. Atualmente, não oferecemos imagens Docker para ARM64.
+> Se você estiver usando uma plataforma ARM64, por favor, utilize [este guia](https://ragflow.io/docs/dev/build_docker_image) para construir uma imagem Docker compatível com o seu sistema.
+
+    > O comando abaixo baixa a edição `v0.17.0-slim` da imagem Docker do RAGFlow. Consulte a tabela a seguir para descrições de diferentes edições do RAGFlow. Para baixar uma edição do RAGFlow diferente da `v0.17.0-slim`, atualize a variável `RAGFLOW_IMAGE` conforme necessário no **docker/.env** antes de usar `docker compose` para iniciar o servidor. Por exemplo: defina `RAGFLOW_IMAGE=infiniflow/ragflow:v0.17.0` para a edição completa `v0.17.0`.
+
+    ```bash
+    $ cd ragflow/docker
+    $ docker compose -f docker-compose.yml up -d
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     ```
 
     | Tag da imagem RAGFlow | Tamanho da imagem (GB) | Possui modelos de incorporação? | Estável?                 |
     | --------------------- | ---------------------- | ------------------------------- | ------------------------ |
+<<<<<<< HEAD
     | v0.16.0               | ~9                     | :heavy_check_mark:              | Lançamento estável       |
     | v0.16.0-slim          | ~2                     | ❌                              | Lançamento estável       |
     | nightly               | ~9                     | :heavy_check_mark:              | _Instável_ build noturno |
     | nightly-slim          | ~2                     | ❌                              | _Instável_ build noturno |
+=======
+    | v0.17.0               | ~9                     | :heavy_check_mark:              | Lançamento estável       |
+    | v0.17.0-slim          | ~2                     | ❌                              | Lançamento estável       |
+    | nightly               | ~9                     | :heavy_check_mark:              | _Instável_ build noturno |
+    | nightly-slim          | ~2                     | ❌                               | _Instável_ build noturno |
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 4.  Verifique o status do servidor após tê-lo iniciado:
 
@@ -196,9 +230,12 @@ Experimente nossa demo em [https://demo.ragflow.io](https://demo.ragflow.io).
      /_/ |_|/_/  |_|\____//_/    /_/ \____/ |__/|__/
 
      * Rodando em todos os endereços (0.0.0.0)
+<<<<<<< HEAD
      * Rodando em http://127.0.0.1:9380
      * Rodando em http://x.x.x.x:9380
      INFO:werkzeug:Pressione CTRL+C para sair
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     ```
 
     > Se você pular essa etapa de confirmação e acessar diretamente o RAGFlow, seu navegador pode exibir um erro `network anormal`, pois, nesse momento, seu RAGFlow pode não estar totalmente inicializado.
@@ -228,7 +265,11 @@ Para atualizar a porta HTTP de serviço padrão (80), vá até [docker-compose.y
 Atualizações nas configurações acima exigem um reinício de todos os contêineres para que tenham efeito:
 
 > ```bash
+<<<<<<< HEAD
 > $ docker compose -f docker/docker-compose.yml up -d
+=======
+> $ docker compose -f docker-compose.yml up -d
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 > ```
 
 ### Mudar o mecanismo de documentos de Elasticsearch para Infinity
@@ -240,13 +281,21 @@ O RAGFlow usa o Elasticsearch por padrão para armazenar texto completo e vetore
    ```bash
    $ docker compose -f docker/docker-compose.yml down -v
    ```
+<<<<<<< HEAD
 
+=======
+   Note: `-v` irá deletar os volumes do contêiner, e os dados existentes serão apagados.
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 2. Defina `DOC_ENGINE` no **docker/.env** para `infinity`.
 
 3. Inicie os contêineres:
 
    ```bash
+<<<<<<< HEAD
    $ docker compose -f docker/docker-compose.yml up -d
+=======
+   $ docker compose -f docker-compose.yml up -d
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
    ```
 
 > [!ATENÇÃO]

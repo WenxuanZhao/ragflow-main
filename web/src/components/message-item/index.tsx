@@ -176,6 +176,10 @@ const MessageItem = ({
                           documentId={item.doc_id}
                           documentName={item.doc_name}
                           prefix="document"
+<<<<<<< HEAD
+=======
+                          link={item.url}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                         >
                           {item.doc_name}
                         </NewDocumentLink>

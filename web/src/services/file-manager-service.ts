@@ -1,7 +1,10 @@
 import api from '@/utils/api';
 import registerServer from '@/utils/register-server';
 import request from '@/utils/request';
+<<<<<<< HEAD
 import pureRequest from 'axios';
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 const {
   listFile,
@@ -67,6 +70,7 @@ const fileManagerService = registerServer<keyof typeof methods>(
 );
 
 export default fileManagerService;
+<<<<<<< HEAD
 
 export const getDocumentFile = (documentId: string) => {
   return pureRequest(getFile + '/' + documentId, {
@@ -109,3 +113,5 @@ export const getDocumentFile = (documentId: string) => {
       console.info(err);
     });
 };
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

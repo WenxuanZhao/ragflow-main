@@ -18,6 +18,11 @@ import os.path
 import logging
 from logging.handlers import RotatingFileHandler
 
+<<<<<<< HEAD
+=======
+initialized_root_logger = False
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 def get_project_base_directory():
     PROJECT_BASE = os.path.abspath(
         os.path.join(
@@ -29,10 +34,20 @@ def get_project_base_directory():
     return PROJECT_BASE
 
 def initRootLogger(logfile_basename: str, log_format: str = "%(asctime)-15s %(levelname)-8s %(process)d %(message)s"):
+<<<<<<< HEAD
     logger = logging.getLogger()
     if logger.hasHandlers():
         return
 
+=======
+    global initialized_root_logger
+    if initialized_root_logger:
+        return
+    initialized_root_logger = True
+
+    logger = logging.getLogger()
+    logger.handlers.clear()
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     log_path = os.path.abspath(os.path.join(get_project_base_directory(), "logs", f"{logfile_basename}.log"))
 
     os.makedirs(os.path.dirname(log_path), exist_ok=True)

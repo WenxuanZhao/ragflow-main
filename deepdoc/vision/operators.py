@@ -23,7 +23,11 @@ import math
 from PIL import Image
 
 
+<<<<<<< HEAD
 class DecodeImage(object):
+=======
+class DecodeImage:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """ decode image """
 
     def __init__(self,
@@ -65,7 +69,11 @@ class DecodeImage(object):
         return data
 
 
+<<<<<<< HEAD
 class StandardizeImage(object):
+=======
+class StandardizeImag:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """normalize image
     Args:
         mean (list): im - mean
@@ -102,7 +110,11 @@ class StandardizeImage(object):
         return im, im_info
 
 
+<<<<<<< HEAD
 class NormalizeImage(object):
+=======
+class NormalizeImage:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """ normalize image such as subtract mean, divide std
     """
 
@@ -129,7 +141,11 @@ class NormalizeImage(object):
         return data
 
 
+<<<<<<< HEAD
 class ToCHWImage(object):
+=======
+class ToCHWImage:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """ convert hwc image to chw image
     """
 
@@ -145,6 +161,7 @@ class ToCHWImage(object):
         return data
 
 
+<<<<<<< HEAD
 class Fasttext(object):
     def __init__(self, path="None", **kwargs):
         import fasttext as fasttext
@@ -158,6 +175,9 @@ class Fasttext(object):
 
 
 class KeepKeys(object):
+=======
+class KeepKeys:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, keep_keys, **kwargs):
         self.keep_keys = keep_keys
 
@@ -168,7 +188,11 @@ class KeepKeys(object):
         return data_list
 
 
+<<<<<<< HEAD
 class Pad(object):
+=======
+class Pad:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, size=None, size_div=32, **kwargs):
         if size is not None and not isinstance(size, (int, list, tuple)):
             raise TypeError("Type of target_size is invalid. Now is {}".format(
@@ -206,7 +230,11 @@ class Pad(object):
         return data
 
 
+<<<<<<< HEAD
 class LinearResize(object):
+=======
+class LinearResize:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """resize image by target_size and max_size
     Args:
         target_size (int): the target size of image
@@ -273,7 +301,11 @@ class LinearResize(object):
         return im_scale_y, im_scale_x
 
 
+<<<<<<< HEAD
 class Resize(object):
+=======
+class Resize:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, size=(640, 640), **kwargs):
         self.size = size
 
@@ -303,7 +335,11 @@ class Resize(object):
         return data
 
 
+<<<<<<< HEAD
 class DetResizeForTest(object):
+=======
+class DetResizeForTest:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, **kwargs):
         super(DetResizeForTest, self).__init__()
         self.resize_type = 0
@@ -433,7 +469,11 @@ class DetResizeForTest(object):
         return img, [ratio_h, ratio_w]
 
 
+<<<<<<< HEAD
 class E2EResizeForTest(object):
+=======
+class E2EResizeForTest:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, **kwargs):
         super(E2EResizeForTest, self).__init__()
         self.max_side_len = kwargs['max_side_len']
@@ -501,7 +541,11 @@ class E2EResizeForTest(object):
         return im, (ratio_h, ratio_w)
 
 
+<<<<<<< HEAD
 class KieResize(object):
+=======
+class KieResize:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, **kwargs):
         super(KieResize, self).__init__()
         self.max_side, self.min_side = kwargs['img_scale'][0], kwargs[
@@ -551,7 +595,11 @@ class KieResize(object):
         return points
 
 
+<<<<<<< HEAD
 class SRResize(object):
+=======
+class SRResize:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self,
                  imgH=32,
                  imgW=128,
@@ -588,7 +636,11 @@ class SRResize(object):
         return data
 
 
+<<<<<<< HEAD
 class ResizeNormalize(object):
+=======
+class ResizeNormalize:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, size, interpolation=Image.BICUBIC):
         self.size = size
         self.interpolation = interpolation
@@ -600,7 +652,11 @@ class ResizeNormalize(object):
         return img_numpy
 
 
+<<<<<<< HEAD
 class GrayImageChannelFormat(object):
+=======
+class GrayImageChannelFormat:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """
     format gray scale image's channel: (3,h,w) -> (1,h,w)
     Args:
@@ -624,7 +680,11 @@ class GrayImageChannelFormat(object):
         return data
 
 
+<<<<<<< HEAD
 class Permute(object):
+=======
+class Permute:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """permute image
     Args:
         to_bgr (bool): whether convert RGB to BGR
@@ -647,7 +707,11 @@ class Permute(object):
         return im, im_info
 
 
+<<<<<<< HEAD
 class PadStride(object):
+=======
+class PadStride:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """ padding image for model with FPN, instead PadBatch(pad_to_stride) in original config
     Args:
         stride (bool): model with FPN need image shape % stride == 0

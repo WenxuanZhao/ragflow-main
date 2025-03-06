@@ -69,6 +69,18 @@ const InvokeForm = ({ onValuesChange, form, node }: IOperatorForm) => {
         >
           <Switch />
         </Form.Item>
+<<<<<<< HEAD
+=======
+        <Form.Item name={'datatype'} label={t('flow.datatype')}>
+          <Select
+            options={[
+              { value: 'json', label: 'application/json' },
+              { value: 'formdata', label: 'multipart/form-data' },
+            ]}
+            allowClear={true}
+          ></Select>
+        </Form.Item>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         <DynamicVariablesForm node={node}></DynamicVariablesForm>
       </Form>
     </>

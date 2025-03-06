@@ -3,9 +3,15 @@ import { ResponseType } from '@/interfaces/database/base';
 import i18n from '@/locales/config';
 import authorizationUtil, {
   getAuthorization,
+<<<<<<< HEAD
 } from '@/utils/authorization-util';
 import { message, notification } from 'antd';
 import { history } from 'umi';
+=======
+  redirectToLogin,
+} from '@/utils/authorization-util';
+import { message, notification } from 'antd';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { RequestMethod, extend } from 'umi-request';
 import { convertTheKeysOfTheObjectToSnake } from './common-util';
 
@@ -117,7 +123,11 @@ request.interceptors.response.use(async (response: Response, options) => {
       duration: 3,
     });
     authorizationUtil.removeAll();
+<<<<<<< HEAD
     history.push('/login'); // Will not jump to the login page
+=======
+    redirectToLogin();
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   } else if (data?.code !== 0) {
     notification.error({
       message: `${i18n.t('message.hint')} : ${data?.code}`,

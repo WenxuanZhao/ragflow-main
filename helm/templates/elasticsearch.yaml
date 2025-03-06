@@ -60,7 +60,11 @@ spec:
         command: ["sysctl", "-w", "vm.max_map_count=262144"]
       containers:
       - name: elasticsearch
+<<<<<<< HEAD
         image: docker.elastic.co/elasticsearch/elasticsearch:{{ .Values.env.STACK_VERSION }}
+=======
+        image: elasticsearch:{{ .Values.env.STACK_VERSION }}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         envFrom:
           - secretRef:
               name: {{ include "ragflow.fullname" . }}-env-config

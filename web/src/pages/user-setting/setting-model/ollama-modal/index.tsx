@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { LLMFactory } from '@/constants/llm';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { useTranslate } from '@/hooks/common-hooks';
 import { IModalProps } from '@/interfaces/common';
 import { IAddLlmRequestBody } from '@/interfaces/request/llm';
@@ -18,6 +22,7 @@ type FieldType = IAddLlmRequestBody & { vision: boolean };
 const { Option } = Select;
 
 const llmFactoryToUrlMap = {
+<<<<<<< HEAD
   Ollama:
     'https://github.com/infiniflow/ragflow/blob/main/docs/guides/deploy_local_llm.mdx',
   Xinference: 'https://inference.readthedocs.io/en/latest/user_guide',
@@ -30,6 +35,25 @@ const llmFactoryToUrlMap = {
   HuggingFace:
     'https://huggingface.co/docs/text-embeddings-inference/quick_tour',
   GPUStack: 'https://docs.gpustack.ai/latest/quickstart',
+=======
+  [LLMFactory.Ollama]:
+    'https://github.com/infiniflow/ragflow/blob/main/docs/guides/deploy_local_llm.mdx',
+  [LLMFactory.Xinference]:
+    'https://inference.readthedocs.io/en/latest/user_guide',
+  [LLMFactory.ModelScope]:
+    'https://www.modelscope.cn/docs/model-service/API-Inference/intro',
+  [LLMFactory.LocalAI]: 'https://localai.io/docs/getting-started/models/',
+  [LLMFactory.LMStudio]: 'https://lmstudio.ai/docs/basics',
+  [LLMFactory.OpenAiAPICompatible]:
+    'https://platform.openai.com/docs/models/gpt-4',
+  [LLMFactory.TogetherAI]: 'https://docs.together.ai/docs/deployment-options',
+  [LLMFactory.Replicate]: 'https://replicate.com/docs/topics/deployments',
+  [LLMFactory.OpenRouter]: 'https://openrouter.ai/docs',
+  [LLMFactory.HuggingFace]:
+    'https://huggingface.co/docs/text-embeddings-inference/quick_tour',
+  [LLMFactory.GPUStack]: 'https://docs.gpustack.ai/latest/quickstart',
+  [LLMFactory.VLLM]: 'https://docs.vllm.ai/en/latest/',
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 };
 type LlmFactory = keyof typeof llmFactoryToUrlMap;
 
@@ -65,11 +89,20 @@ const OllamaModal = ({
     llmFactoryToUrlMap[llmFactory as LlmFactory] ||
     'https://github.com/infiniflow/ragflow/blob/main/docs/guides/deploy_local_llm.mdx';
   const optionsMap = {
+<<<<<<< HEAD
     HuggingFace: [
       { value: 'embedding', label: 'embedding' },
       { value: 'chat', label: 'chat' },
     ],
     Xinference: [
+=======
+    [LLMFactory.HuggingFace]: [
+      { value: 'embedding', label: 'embedding' },
+      { value: 'chat', label: 'chat' },
+      { value: 'rerank', label: 'rerank' },
+    ],
+    [LLMFactory.Xinference]: [
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       { value: 'chat', label: 'chat' },
       { value: 'embedding', label: 'embedding' },
       { value: 'rerank', label: 'rerank' },
@@ -77,7 +110,12 @@ const OllamaModal = ({
       { value: 'speech2text', label: 'sequence2text' },
       { value: 'tts', label: 'tts' },
     ],
+<<<<<<< HEAD
     GPUStack: [
+=======
+    [LLMFactory.ModelScope]: [{ value: 'chat', label: 'chat' }],
+    [LLMFactory.GPUStack]: [
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       { value: 'chat', label: 'chat' },
       { value: 'embedding', label: 'embedding' },
       { value: 'rerank', label: 'rerank' },
@@ -163,7 +201,11 @@ const OllamaModal = ({
               type: 'number',
               message: t('maxTokensInvalidMessage'),
             },
+<<<<<<< HEAD
             ({ getFieldValue }) => ({
+=======
+            ({}) => ({
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
               validator(_, value) {
                 if (value < 0) {
                   return Promise.reject(new Error(t('maxTokensMinMessage')));

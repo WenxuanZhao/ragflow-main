@@ -22,7 +22,11 @@
         <img alt="Static Badge" src="https://img.shields.io/badge/Online-Demo-4e6b99">
     </a>
     <a href="https://hub.docker.com/r/infiniflow/ragflow" target="_blank">
+<<<<<<< HEAD
         <img src="https://img.shields.io/badge/docker_pull-ragflow:v0.16.0-brightgreen" alt="docker pull infiniflow/ragflow:v0.16.0">
+=======
+        <img src="https://img.shields.io/badge/docker_pull-ragflow:v0.17.0-brightgreen" alt="docker pull infiniflow/ragflow:v0.17.0">
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     </a>
     <a href="https://github.com/infiniflow/ragflow/releases/latest">
         <img src="https://img.shields.io/github/v/release/infiniflow/ragflow?color=blue&label=Latest%20Release" alt="Latest Release">
@@ -55,9 +59,16 @@
 
 ## 🔥 最新情報
 
+<<<<<<< HEAD
 - 2025-02-05 シリコン フローの St およびモデル リストを更新し、Deep Seek-R1/Deep Seek-V3 のサポートを追加しました。
 - 2025-01-26 ナレッジ グラフの抽出と適用を最適化し、さまざまな構成オプションを提供します。
 - 2024-12-18 Deepdoc のドキュメント レイアウト分析モデルをアップグレードします。
+=======
+- 2025-02-28 インターネット検索 (TAVILY) と組み合わせて、あらゆる LLM の詳細な調査をサポートします。
+- 2025-02-05 シリコン フローの St およびモデル リストを更新し、Deep Seek-R1/Deep Seek-V3 のサポートを追加しました。
+- 2025-01-26 ナレッジ グラフの抽出と適用を最適化し、さまざまな構成オプションを提供します。
+- 2024-12-18 DeepDoc のドキュメント レイアウト分析モデルをアップグレードします。
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 - 2024-12-04 ナレッジ ベースへのページランク スコアをサポートしました。
 - 2024-11-22 エージェントでの変数の定義と使用法を改善しました。
 - 2024-11-01 再現の精度を向上させるために、解析されたチャンクにキーワード抽出と関連質問の生成を追加しました。
@@ -146,21 +157,42 @@
 
 3. ビルド済みの Docker イメージをビルドし、サーバーを起動する:
 
+<<<<<<< HEAD
    > 以下のコマンドは、RAGFlow Docker イメージの v0.16.0-slim エディションをダウンロードします。異なる RAGFlow エディションの説明については、以下の表を参照してください。v0.16.0-slim とは異なるエディションをダウンロードするには、docker/.env ファイルの RAGFLOW_IMAGE 変数を適宜更新し、docker compose を使用してサーバーを起動してください。例えば、完全版 v0.16.0 をダウンロードするには、RAGFLOW_IMAGE=infiniflow/ragflow:v0.16.0 と設定します。
 
    ```bash
    $ cd ragflow
    $ docker compose -f docker/docker-compose.yml up -d
+=======
+> [!CAUTION]
+> 現在、公式に提供されているすべての Docker イメージは x86 アーキテクチャ向けにビルドされており、ARM64 用の Docker イメージは提供されていません。
+> ARM64 アーキテクチャのオペレーティングシステムを使用している場合は、[このドキュメント](https://ragflow.io/docs/dev/build_docker_image)を参照して Docker イメージを自分でビルドしてください。
+
+   > 以下のコマンドは、RAGFlow Docker イメージの v0.17.0-slim エディションをダウンロードします。異なる RAGFlow エディションの説明については、以下の表を参照してください。v0.17.0-slim とは異なるエディションをダウンロードするには、docker/.env ファイルの RAGFLOW_IMAGE 変数を適宜更新し、docker compose を使用してサーバーを起動してください。例えば、完全版 v0.17.0 をダウンロードするには、RAGFLOW_IMAGE=infiniflow/ragflow:v0.17.0 と設定します。
+
+   ```bash
+   $ cd ragflow/docker
+   $ docker compose -f docker-compose.yml up -d
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
    ```
 
    | RAGFlow image tag | Image size (GB) | Has embedding models? | Stable?                  |
    | ----------------- | --------------- | --------------------- | ------------------------ |
+<<<<<<< HEAD
    | v0.16.0           | &approx;9       | :heavy_check_mark:    | Stable release           |
    | v0.16.0-slim      | &approx;2       | ❌                    | Stable release           |
    | nightly           | &approx;9       | :heavy_check_mark:    | _Unstable_ nightly build |
    | nightly-slim      | &approx;2       | ❌                    | _Unstable_ nightly build |
 
 4. サーバーを立ち上げた後、サーバーの状態を確認する:
+=======
+   | v0.17.0           | &approx;9       | :heavy_check_mark:    | Stable release           |
+   | v0.17.0-slim      | &approx;2       | ❌                    | Stable release           |
+   | nightly           | &approx;9       | :heavy_check_mark:    | _Unstable_ nightly build |
+   | nightly-slim      | &approx;2       | ❌                     | _Unstable_ nightly build |
+
+1. サーバーを立ち上げた後、サーバーの状態を確認する:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
    ```bash
    $ docker logs -f ragflow-server
@@ -176,16 +208,25 @@
     /_/ |_|/_/  |_|\____//_/    /_/ \____/ |__/|__/
 
     * Running on all addresses (0.0.0.0)
+<<<<<<< HEAD
     * Running on http://127.0.0.1:9380
     * Running on http://x.x.x.x:9380
     INFO:werkzeug:Press CTRL+C to quit
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
    ```
 
    > もし確認ステップをスキップして直接 RAGFlow にログインした場合、その時点で RAGFlow が完全に初期化されていない可能性があるため、ブラウザーがネットワーク異常エラーを表示するかもしれません。
 
+<<<<<<< HEAD
 5. ウェブブラウザで、プロンプトに従ってサーバーの IP アドレスを入力し、RAGFlow にログインします。
    > デフォルトの設定を使用する場合、デフォルトの HTTP サービングポート `80` は省略できるので、与えられたシナリオでは、`http://IP_OF_YOUR_MACHINE`（ポート番号は省略）だけを入力すればよい。
 6. [service_conf.yaml.template](./docker/service_conf.yaml.template) で、`user_default_llm` で希望の LLM ファクトリを選択し、`API_KEY` フィールドを対応する API キーで更新する。
+=======
+2. ウェブブラウザで、プロンプトに従ってサーバーの IP アドレスを入力し、RAGFlow にログインします。
+   > デフォルトの設定を使用する場合、デフォルトの HTTP サービングポート `80` は省略できるので、与えられたシナリオでは、`http://IP_OF_YOUR_MACHINE`（ポート番号は省略）だけを入力すればよい。
+3. [service_conf.yaml.template](./docker/service_conf.yaml.template) で、`user_default_llm` で希望の LLM ファクトリを選択し、`API_KEY` フィールドを対応する API キーで更新する。
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
    > 詳しくは [llm_api_key_setup](https://ragflow.io/docs/dev/llm_api_key_setup) を参照してください。
 
@@ -208,7 +249,11 @@
 > すべてのシステム設定のアップデートを有効にするには、システムの再起動が必要です:
 >
 > ```bash
+<<<<<<< HEAD
 > $ docker compose -f docker/docker-compose.yml up -d
+=======
+> $ docker compose -f docker-compose.yml up -d
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 > ```
 
 ### Elasticsearch から Infinity にドキュメントエンジンを切り替えます
@@ -219,11 +264,19 @@ RAGFlow はデフォルトで Elasticsearch を使用して全文とベクトル
    ```bash
    $ docker compose -f docker/docker-compose.yml down -v
    ```
+<<<<<<< HEAD
+=======
+   Note: `-v` は docker コンテナのボリュームを削除し、既存のデータをクリアします。
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 2. **docker/.env** の「DOC \_ ENGINE」を「infinity」に設定します。
 
 3. 起動コンテナ：
    ```bash
+<<<<<<< HEAD
    $ docker compose -f docker/docker-compose.yml up -d
+=======
+   $ docker compose -f docker-compose.yml up -d
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
    ```
    > [!WARNING]  
    > Linux/arm64 マシンでの Infinity への切り替えは正式にサポートされていません。

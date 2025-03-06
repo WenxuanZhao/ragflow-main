@@ -22,13 +22,20 @@ from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 from datetime import datetime
 from io import BytesIO
+<<<<<<< HEAD
+=======
+import trio
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 from peewee import fn
 
 from api.db.db_utils import bulk_insert_into_db
 from api import settings
 from api.utils import current_timestamp, get_format_time, get_uuid
+<<<<<<< HEAD
 from graphrag.general.mind_map_extractor import MindMapExtractor
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 from rag.settings import SVR_QUEUE_NAME
 from rag.utils.storage_factory import STORAGE_IMPL
 from rag.nlp import search, rag_tokenizer
@@ -372,16 +379,26 @@ class DocumentService(CommonService):
                     "progress_msg": "Task is queued...",
                     "process_begin_at": get_format_time()
                     })
+<<<<<<< HEAD
+=======
+    @classmethod
+    @DB.connection_context()
+    def update_meta_fields(cls, doc_id, meta_fields):
+        return cls.update_by_id(doc_id, {"meta_fields": meta_fields})
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     @classmethod
     @DB.connection_context()
     def update_progress(cls):
+<<<<<<< HEAD
         MSG = {
             "raptor": "Start RAPTOR (Recursive Abstractive Processing for Tree-Organized Retrieval).",
             "graphrag": "Entities extraction progress",
             "graph_resolution": "Start Graph Resolution",
             "graph_community": "Start Graph Community Reports Generation"
         }
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         docs = cls.get_unfinished_docs()
         for d in docs:
             try:
@@ -392,21 +409,38 @@ class DocumentService(CommonService):
                 prg = 0
                 finished = True
                 bad = 0
+<<<<<<< HEAD
+=======
+                has_raptor = False
+                has_graphrag = False
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 e, doc = DocumentService.get_by_id(d["id"])
                 status = doc.run  # TaskStatus.RUNNING.value
                 for t in tsks:
                     if 0 <= t.progress < 1:
                         finished = False
+<<<<<<< HEAD
                     prg += t.progress if t.progress >= 0 else 0
                     if t.progress_msg not in msg:
                         msg.append(t.progress_msg)
                     if t.progress == -1:
                         bad += 1
+=======
+                    if t.progress == -1:
+                        bad += 1
+                    prg += t.progress if t.progress >= 0 else 0
+                    msg.append(t.progress_msg)
+                    if t.task_type == "raptor":
+                        has_raptor = True
+                    elif t.task_type == "graphrag":
+                        has_graphrag = True
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 prg /= len(tsks)
                 if finished and bad:
                     prg = -1
                     status = TaskStatus.FAIL.value
                 elif finished:
+<<<<<<< HEAD
                     m = "\n".join(sorted(msg))
                     if d["parser_config"].get("raptor", {}).get("use_raptor") and m.find(MSG["raptor"]) < 0:
                         queue_raptor_o_graphrag_tasks(d, "raptor", MSG["raptor"])
@@ -423,6 +457,13 @@ class DocumentService(CommonService):
                         and d["parser_config"].get("graphrag", {}).get("community") \
                         and m.find(MSG["graph_community"]) < 0:
                         queue_raptor_o_graphrag_tasks(d, "graph_community", MSG["graph_community"])
+=======
+                    if d["parser_config"].get("raptor", {}).get("use_raptor") and not has_raptor:
+                        queue_raptor_o_graphrag_tasks(d, "raptor")
+                        prg = 0.98 * len(tsks) / (len(tsks) + 1)
+                    elif d["parser_config"].get("graphrag", {}).get("use_graphrag") and not has_graphrag:
+                        queue_raptor_o_graphrag_tasks(d, "graphrag")
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                         prg = 0.98 * len(tsks) / (len(tsks) + 1)
                     else:
                         status = TaskStatus.DONE.value
@@ -459,7 +500,11 @@ class DocumentService(CommonService):
         return False
 
 
+<<<<<<< HEAD
 def queue_raptor_o_graphrag_tasks(doc, ty, msg):
+=======
+def queue_raptor_o_graphrag_tasks(doc, ty):
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     chunking_config = DocumentService.get_chunking_config(doc["id"])
     hasher = xxhash.xxh64()
     for field in sorted(chunking_config.keys()):
@@ -472,7 +517,12 @@ def queue_raptor_o_graphrag_tasks(doc, ty, msg):
             "doc_id": doc["id"],
             "from_page": 100000000,
             "to_page": 100000000,
+<<<<<<< HEAD
             "progress_msg":  datetime.now().strftime("%H:%M:%S") + " " + msg
+=======
+            "task_type": ty,
+            "progress_msg":  datetime.now().strftime("%H:%M:%S") + " created task " + ty
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         }
 
     task = new_task()
@@ -481,7 +531,10 @@ def queue_raptor_o_graphrag_tasks(doc, ty, msg):
     hasher.update(ty.encode("utf-8"))
     task["digest"] = hasher.hexdigest()
     bulk_insert_into_db(Task, [task], True)
+<<<<<<< HEAD
     task["task_type"] = ty
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     assert REDIS_CONN.queue_product(SVR_QUEUE_NAME, message=task), "Can't access Redis. Please check the Redis' status."
 
 
@@ -500,6 +553,12 @@ def doc_upload_and_parse(conversation_id, file_objs, user_id):
     assert e, "Conversation not found!"
 
     e, dia = DialogService.get_by_id(conv.dialog_id)
+<<<<<<< HEAD
+=======
+    if not dia.kb_ids:
+        raise LookupError("No knowledge base associated with this conversation. "
+                          "Please add a knowledge base before uploading documents")
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     kb_id = dia.kb_ids[0]
     e, kb = KnowledgebaseService.get_by_id(kb_id)
     if not e:
@@ -588,10 +647,18 @@ def doc_upload_and_parse(conversation_id, file_objs, user_id):
         cks = [c for c in docs if c["doc_id"] == doc_id]
 
         if parser_ids[doc_id] != ParserType.PICTURE.value:
+<<<<<<< HEAD
             mindmap = MindMapExtractor(llm_bdl)
             try:
                 mind_map = json.dumps(mindmap([c["content_with_weight"] for c in docs if c["doc_id"] == doc_id]).output,
                                       ensure_ascii=False, indent=2)
+=======
+            from graphrag.general.mind_map_extractor import MindMapExtractor
+            mindmap = MindMapExtractor(llm_bdl)
+            try:
+                mind_map = trio.run(mindmap, [c["content_with_weight"] for c in docs if c["doc_id"] == doc_id])
+                mind_map = json.dumps(mind_map.output, ensure_ascii=False, indent=2)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 if len(mind_map) < 32:
                     raise Exception("Few content: " + mind_map)
                 cks.append({

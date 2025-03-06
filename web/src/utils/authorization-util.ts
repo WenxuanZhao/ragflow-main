@@ -56,3 +56,11 @@ export const getAuthorization = () => {
 };
 
 export default storage;
+<<<<<<< HEAD
+=======
+
+// Will not jump to the login page
+export function redirectToLogin() {
+  window.location.href = location.origin + `/login`;
+}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

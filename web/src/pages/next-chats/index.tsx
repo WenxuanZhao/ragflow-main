@@ -1,10 +1,18 @@
 import ListFilterBar from '@/components/list-filter-bar';
+<<<<<<< HEAD
 import { useFetchNextDialogList } from '@/hooks/chat-hooks';
+=======
+import { useFetchChatAppList } from '@/hooks/chat-hooks';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { Plus } from 'lucide-react';
 import { ChatCard } from './chat-card';
 
 export default function ChatList() {
+<<<<<<< HEAD
   const { data: chatList } = useFetchNextDialogList();
+=======
+  const { data: chatList } = useFetchChatAppList();
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
   return (
     <section className="p-8">

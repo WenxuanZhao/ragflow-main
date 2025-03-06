@@ -2,11 +2,18 @@ import i18n from '@/locales/config';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { App, ConfigProvider, ConfigProviderProps, theme } from 'antd';
+<<<<<<< HEAD
+=======
+import pt_BR from 'antd/lib/locale/pt_BR';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import enUS from 'antd/locale/en_US';
 import vi_VN from 'antd/locale/vi_VN';
 import zhCN from 'antd/locale/zh_CN';
 import zh_HK from 'antd/locale/zh_HK';
+<<<<<<< HEAD
 import pt_BR from 'antd/lib/locale/pt_BR';
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -64,7 +71,11 @@ function Root({ children }: React.PropsWithChildren) {
         }}
         locale={locale}
       >
+<<<<<<< HEAD
         <App> {children}</App>
+=======
+        <App>{children}</App>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       </ConfigProvider>
       <ReactQueryDevtools buttonPosition={'top-left'} />
     </>

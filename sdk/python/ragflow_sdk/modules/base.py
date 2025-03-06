@@ -14,7 +14,11 @@
 #  limitations under the License.
 #
 
+<<<<<<< HEAD
 class Base(object):
+=======
+class Base:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, rag, res_dict):
         self.rag = rag
         for k, v in res_dict.items():

@@ -152,6 +152,10 @@ def add_llm():
 
     elif factory == "Tencent Cloud":
         req["api_key"] = apikey_json(["tencent_cloud_sid", "tencent_cloud_sk"])
+<<<<<<< HEAD
+=======
+        return set_api_key()
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     elif factory == "Bedrock":
         # For Bedrock, due to its special authentication method
@@ -171,6 +175,13 @@ def add_llm():
         llm_name = req["llm_name"] + "___OpenAI-API"
         api_key = req.get("api_key", "xxxxxxxxxxxxxxx")
 
+<<<<<<< HEAD
+=======
+    elif factory == "VLLM":
+        llm_name = req["llm_name"] + "___VLLM"
+        api_key = req.get("api_key", "xxxxxxxxxxxxxxx")
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     elif factory == "XunFei Spark":
         llm_name = req["llm_name"]
         if req["model_type"] == "chat":
@@ -230,12 +241,17 @@ def add_llm():
         try:
             m, tc = mdl.chat(None, [{"role": "user", "content": "Hello! How are you doing!"}], {
                 "temperature": 0.9})
+<<<<<<< HEAD
             if not tc:
+=======
+            if not tc and m.find("**ERROR**:") >= 0:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 raise Exception(m)
         except Exception as e:
             msg += f"\nFail to access model({mdl_nm})." + str(
                 e)
     elif llm["model_type"] == LLMType.RERANK:
+<<<<<<< HEAD
         mdl = RerankModel[factory](
             key=llm["api_key"],
             model_name=mdl_nm,
@@ -245,6 +261,19 @@ def add_llm():
             arr, tc = mdl.similarity("Hello~ Ragflower!", ["Hi, there!", "Ohh, my friend!"])
             if len(arr) == 0:
                 raise Exception("Not known.")
+=======
+        try:
+            mdl = RerankModel[factory](
+                key=llm["api_key"],
+                model_name=mdl_nm,
+                base_url=llm["api_base"]
+            )
+            arr, tc = mdl.similarity("Hello~ Ragflower!", ["Hi, there!", "Ohh, my friend!"])
+            if len(arr) == 0:
+                raise Exception("Not known.")
+        except KeyError:
+            msg += f"{factory} dose not support this model({mdl_nm})"
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         except Exception as e:
             msg += f"\nFail to access model({mdl_nm})." + str(
                 e)
@@ -257,7 +286,11 @@ def add_llm():
         try:
             with open(os.path.join(get_project_base_directory(), "web/src/assets/yay.jpg"), "rb") as f:
                 m, tc = mdl.describe(f.read())
+<<<<<<< HEAD
                 if not tc:
+=======
+                if not m and not tc:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                     raise Exception(m)
         except Exception as e:
             msg += f"\nFail to access model({mdl_nm})." + str(e)
@@ -360,4 +393,8 @@ def list_app():
 
         return get_json_result(data=res)
     except Exception as e:
+<<<<<<< HEAD
         return server_error_response(e)
+=======
+        return server_error_response(e)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

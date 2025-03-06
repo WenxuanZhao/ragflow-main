@@ -1,5 +1,6 @@
 import { useFetchKnowledgeList } from '@/hooks/knowledge-hooks';
 import { UserOutlined } from '@ant-design/icons';
+<<<<<<< HEAD
 import {
   Avatar,
   Divider,
@@ -10,6 +11,9 @@ import {
   Slider,
   Space,
 } from 'antd';
+=======
+import { Avatar, Flex, Form, InputNumber, Select, Slider, Space } from 'antd';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import DOMPurify from 'dompurify';
 import { useTranslation } from 'react-i18next';
 
@@ -83,7 +87,10 @@ export const TopNTagsItem = () => {
 export function TagItems() {
   return (
     <>
+<<<<<<< HEAD
       <Divider />
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       <TagSetItem></TagSetItem>
       <Form.Item noStyle dependencies={[['parser_config', 'tag_kb_ids']]}>
         {({ getFieldValue }) => {
@@ -95,7 +102,10 @@ export function TagItems() {
           );
         }}
       </Form.Item>
+<<<<<<< HEAD
       <Divider />
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     </>
   );
 }

@@ -1,7 +1,17 @@
 import { LlmModelType } from '@/constants/knowledge';
 import { useComposeLlmOptionsByModelTypes } from '@/hooks/llm-hooks';
+<<<<<<< HEAD
 import { Popover, Select } from 'antd';
 import LlmSettingItems from '../llm-setting-items';
+=======
+import * as SelectPrimitive from '@radix-ui/react-select';
+import { Popover as AntPopover, Select as AntSelect } from 'antd';
+import { forwardRef, useState } from 'react';
+import LlmSettingItems from '../llm-setting-items';
+import { LlmSettingFieldItems } from '../llm-setting-items/next';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Select, SelectTrigger, SelectValue } from '../ui/select';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 interface IProps {
   id?: string;
@@ -25,14 +35,22 @@ const LLMSelect = ({ id, value, onChange, disabled }: IProps) => {
   );
 
   return (
+<<<<<<< HEAD
     <Popover
+=======
+    <AntPopover
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       content={content}
       trigger="click"
       placement="left"
       arrow={false}
       destroyTooltipOnHide
     >
+<<<<<<< HEAD
       <Select
+=======
+      <AntSelect
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         options={modelOptions}
         style={{ width: '100%' }}
         dropdownStyle={{ display: 'none' }}
@@ -41,8 +59,55 @@ const LLMSelect = ({ id, value, onChange, disabled }: IProps) => {
         onChange={onChange}
         disabled={disabled}
       />
+<<<<<<< HEAD
     </Popover>
+=======
+    </AntPopover>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   );
 };
 
 export default LLMSelect;
+<<<<<<< HEAD
+=======
+
+export const NextLLMSelect = forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  IProps
+>(({ value, disabled }, ref) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const modelOptions = useComposeLlmOptionsByModelTypes([
+    LlmModelType.Chat,
+    LlmModelType.Image2text,
+  ]);
+
+  return (
+    <Select disabled={disabled} value={value}>
+      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+        <PopoverTrigger asChild>
+          <SelectTrigger
+            onClick={(e) => {
+              e.preventDefault();
+              setIsPopoverOpen(true);
+            }}
+            ref={ref}
+          >
+            <SelectValue>
+              {
+                modelOptions
+                  .flatMap((x) => x.options)
+                  .find((x) => x.value === value)?.label
+              }
+            </SelectValue>
+          </SelectTrigger>
+        </PopoverTrigger>
+        <PopoverContent side={'left'}>
+          <LlmSettingFieldItems></LlmSettingFieldItems>
+        </PopoverContent>
+      </Popover>
+    </Select>
+  );
+});
+
+NextLLMSelect.displayName = 'LLMSelect';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

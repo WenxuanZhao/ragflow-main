@@ -26,6 +26,10 @@ INFINITY = get_base_config("infinity", {"uri": "infinity:23817"})
 AZURE = get_base_config("azure", {})
 S3 = get_base_config("s3", {})
 MINIO = decrypt_database_config(name="minio")
+<<<<<<< HEAD
+=======
+OSS = get_base_config("oss", {})
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 try:
     REDIS = decrypt_database_config(name="redis")
 except Exception:

@@ -19,10 +19,18 @@ import omit from 'lodash/omit';
 import React, { useEffect, useMemo } from 'react';
 import { useFetchParserListOnMount, useShowAutoKeywords } from './hooks';
 
+<<<<<<< HEAD
+=======
+import { DocumentParserType } from '@/constants/knowledge';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { useTranslate } from '@/hooks/common-hooks';
 import { IParserConfig } from '@/interfaces/database/document';
 import { IChangeParserConfigRequestBody } from '@/interfaces/request/document';
 import { AutoKeywordsItem, AutoQuestionsItem } from '../auto-keywords-item';
+<<<<<<< HEAD
+=======
+import { DatasetConfigurationContainer } from '../dataset-configuration-container';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import Delimiter from '../delimiter';
 import EntityTypesItem from '../entity-types-item';
 import ExcelToHtml from '../excel-to-html';
@@ -38,23 +46,40 @@ import styles from './index.less';
 interface IProps extends Omit<IModalManagerChildrenProps, 'showModal'> {
   loading: boolean;
   onOk: (
+<<<<<<< HEAD
     parserId: string,
     parserConfig: IChangeParserConfigRequestBody,
   ) => void;
   showModal?(): void;
   parserId: string;
+=======
+    parserId: DocumentParserType | undefined,
+    parserConfig: IChangeParserConfigRequestBody,
+  ) => void;
+  showModal?(): void;
+  parserId: DocumentParserType;
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   parserConfig: IParserConfig;
   documentExtension: string;
   documentId: string;
 }
 
 const hidePagesChunkMethods = [
+<<<<<<< HEAD
   'qa',
   'table',
   'picture',
   'resume',
   'one',
   'knowledge_graph',
+=======
+  DocumentParserType.Qa,
+  DocumentParserType.Table,
+  DocumentParserType.Picture,
+  DocumentParserType.Resume,
+  DocumentParserType.One,
+  DocumentParserType.KnowledgeGraph,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 ];
 
 const ChunkMethodModal: React.FC<IProps> = ({
@@ -95,12 +120,17 @@ const ChunkMethodModal: React.FC<IProps> = ({
     return (
       isPdf &&
       hidePagesChunkMethods
+<<<<<<< HEAD
         .filter((x) => x !== 'one')
+=======
+        .filter((x) => x !== DocumentParserType.One)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         .every((x) => x !== selectedTag)
     );
   }, [selectedTag, isPdf]);
 
   const showMaxTokenNumber =
+<<<<<<< HEAD
     selectedTag === 'naive' || selectedTag === 'knowledge_graph';
 
   const hideDivider = [showPages, showOne, showMaxTokenNumber].every(
@@ -111,6 +141,15 @@ const ChunkMethodModal: React.FC<IProps> = ({
 
   const showExcelToHtml =
     selectedTag === 'naive' && documentExtension === 'xlsx';
+=======
+    selectedTag === DocumentParserType.Naive ||
+    selectedTag === DocumentParserType.KnowledgeGraph;
+
+  const showEntityTypes = selectedTag === DocumentParserType.KnowledgeGraph;
+
+  const showExcelToHtml =
+    selectedTag === DocumentParserType.Naive && documentExtension === 'xlsx';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
   const showAutoKeywords = useShowAutoKeywords();
 
@@ -149,8 +188,18 @@ const ChunkMethodModal: React.FC<IProps> = ({
           />
         </Form.Item>
       </Space>
+<<<<<<< HEAD
       {hideDivider || <Divider></Divider>}
       <Form name="dynamic_form_nest_item" autoComplete="off" form={form}>
+=======
+      <Divider></Divider>
+      <Form
+        name="dynamic_form_nest_item"
+        autoComplete="off"
+        form={form}
+        className="space-y-4"
+      >
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         {showPages && (
           <>
             <Space>
@@ -255,7 +304,11 @@ const ChunkMethodModal: React.FC<IProps> = ({
             </Form.List>
           </>
         )}
+<<<<<<< HEAD
         {showOne && <LayoutRecognize></LayoutRecognize>}
+=======
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         {showPages && (
           <Form.Item
             noStyle
@@ -281,6 +334,7 @@ const ChunkMethodModal: React.FC<IProps> = ({
             }
           </Form.Item>
         )}
+<<<<<<< HEAD
         {showMaxTokenNumber && (
           <>
             <MaxTokenNumber
@@ -298,6 +352,38 @@ const ChunkMethodModal: React.FC<IProps> = ({
         {showExcelToHtml && <ExcelToHtml></ExcelToHtml>}
         {showRaptorParseConfiguration(selectedTag) && (
           <ParseConfiguration></ParseConfiguration>
+=======
+        <DatasetConfigurationContainer show={showOne || showMaxTokenNumber}>
+          {showOne && <LayoutRecognize></LayoutRecognize>}
+          {showMaxTokenNumber && (
+            <>
+              <MaxTokenNumber
+                max={
+                  selectedTag === DocumentParserType.KnowledgeGraph
+                    ? 8192 * 2
+                    : 2048
+                }
+              ></MaxTokenNumber>
+              <Delimiter></Delimiter>
+            </>
+          )}
+        </DatasetConfigurationContainer>
+        <DatasetConfigurationContainer
+          show={showAutoKeywords(selectedTag) || showExcelToHtml}
+        >
+          {showAutoKeywords(selectedTag) && (
+            <>
+              <AutoKeywordsItem></AutoKeywordsItem>
+              <AutoQuestionsItem></AutoQuestionsItem>
+            </>
+          )}
+          {showExcelToHtml && <ExcelToHtml></ExcelToHtml>}
+        </DatasetConfigurationContainer>
+        {showRaptorParseConfiguration(selectedTag) && (
+          <DatasetConfigurationContainer>
+            <ParseConfiguration></ParseConfiguration>
+          </DatasetConfigurationContainer>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         )}
         {showGraphRagItems(selectedTag) && <GraphRagItems></GraphRagItems>}
         {showEntityTypes && <EntityTypesItem></EntityTypesItem>}

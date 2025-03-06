@@ -1,12 +1,19 @@
 import { Authorization } from '@/constants/authorization';
 import userService from '@/services/user-service';
+<<<<<<< HEAD
 import authorizationUtil from '@/utils/authorization-util';
+=======
+import authorizationUtil, { redirectToLogin } from '@/utils/authorization-util';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { useMutation } from '@tanstack/react-query';
 import { Form, message } from 'antd';
 import { FormInstance } from 'antd/lib';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+<<<<<<< HEAD
 import { history } from 'umi';
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 export interface ILoginRequestBody {
   email: string;
@@ -89,7 +96,11 @@ export const useLogout = () => {
       if (data.code === 0) {
         message.success(t('message.logout'));
         authorizationUtil.removeAll();
+<<<<<<< HEAD
         history.push('/login');
+=======
+        redirectToLogin();
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       }
       return data.code;
     },

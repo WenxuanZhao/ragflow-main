@@ -1,7 +1,10 @@
 'use client';
 
 import {
+<<<<<<< HEAD
   ColumnDef,
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -12,6 +15,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+<<<<<<< HEAD
 import { ArrowUpDown, MoreHorizontal, Pencil } from 'lucide-react';
 import * as React from 'react';
 
@@ -26,6 +30,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
+=======
+import * as React from 'react';
+
+import { ChunkMethodDialog } from '@/components/chunk-method-dialog';
+import { Button } from '@/components/ui/button';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import {
   Table,
   TableBody,
@@ -34,6 +44,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+<<<<<<< HEAD
 import { RunningStatus } from '@/constants/knowledge';
 import { IDocumentInfo } from '@/interfaces/database/document';
 import { useTranslation } from 'react-i18next';
@@ -71,6 +82,24 @@ const data: IDocumentInfo[] = [
 ];
 
 export function DatasetTable() {
+=======
+import { useFetchNextDocumentList } from '@/hooks/document-hooks';
+import { useSetSelectedRecord } from '@/hooks/logic-hooks';
+import { IDocumentInfo } from '@/interfaces/database/document';
+import { getExtension } from '@/utils/document-util';
+import { useMemo } from 'react';
+import { useChangeDocumentParser } from './hooks';
+import { useDatasetTableColumns } from './use-dataset-table-columns';
+
+export function DatasetTable() {
+  const {
+    // searchString,
+    documents,
+    pagination,
+    // handleInputChange,
+    setPagination,
+  } = useFetchNextDocumentList();
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -78,6 +107,7 @@ export function DatasetTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+<<<<<<< HEAD
   const { t } = useTranslation('translation', {
     keyPrefix: 'knowledgeDetails',
   });
@@ -194,6 +224,33 @@ export function DatasetTable() {
 
   const table = useReactTable({
     data,
+=======
+
+  const { currentRecord, setRecord } = useSetSelectedRecord<IDocumentInfo>();
+
+  const {
+    changeParserLoading,
+    onChangeParserOk,
+    changeParserVisible,
+    hideChangeParserModal,
+    showChangeParserModal,
+  } = useChangeDocumentParser(currentRecord.id);
+
+  const columns = useDatasetTableColumns({
+    showChangeParserModal,
+    setCurrentRecord: setRecord,
+  });
+
+  const currentPagination = useMemo(() => {
+    return {
+      pageIndex: (pagination.current || 1) - 1,
+      pageSize: pagination.pageSize || 10,
+    };
+  }, [pagination]);
+
+  const table = useReactTable({
+    data: documents,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -203,12 +260,36 @@ export function DatasetTable() {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+<<<<<<< HEAD
+=======
+    onPaginationChange: (updaterOrValue: any) => {
+      if (typeof updaterOrValue === 'function') {
+        const nextPagination = updaterOrValue(currentPagination);
+        setPagination({
+          page: nextPagination.pageIndex + 1,
+          pageSize: nextPagination.pageSize,
+        });
+      } else {
+        setPagination({
+          page: updaterOrValue.pageIndex,
+          pageSize: updaterOrValue.pageSize,
+        });
+      }
+    },
+    manualPagination: true, //we're doing manual "server-side" pagination
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+<<<<<<< HEAD
     },
+=======
+      pagination: currentPagination,
+    },
+    rowCount: pagination.total ?? 0,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   });
 
   return (
@@ -241,7 +322,14 @@ export function DatasetTable() {
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
+<<<<<<< HEAD
                     <TableCell key={cell.id}>
+=======
+                    <TableCell
+                      key={cell.id}
+                      className={cell.column.columnDef.meta?.cellClassName}
+                    >
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
@@ -266,7 +354,11 @@ export function DatasetTable() {
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{' '}
+<<<<<<< HEAD
           {table.getFilteredRowModel().rows.length} row(s) selected.
+=======
+          {pagination?.total} row(s) selected.
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         </div>
         <div className="space-x-2">
           <Button
@@ -287,6 +379,21 @@ export function DatasetTable() {
           </Button>
         </div>
       </div>
+<<<<<<< HEAD
+=======
+      {changeParserVisible && (
+        <ChunkMethodDialog
+          documentId={currentRecord.id}
+          parserId={currentRecord.parser_id}
+          parserConfig={currentRecord.parser_config}
+          documentExtension={getExtension(currentRecord.name)}
+          onOk={onChangeParserOk}
+          visible={changeParserVisible}
+          hideModal={hideChangeParserModal}
+          loading={changeParserLoading}
+        ></ChunkMethodDialog>
+      )}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     </div>
   );
 }

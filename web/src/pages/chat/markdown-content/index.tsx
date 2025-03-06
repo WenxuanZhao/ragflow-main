@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 
 import 'katex/dist/katex.min.css'; // `rehype-katex` does not import the CSS for you
 
+<<<<<<< HEAD
 import { preprocessLaTeX } from '@/utils/chat';
 import { replaceTextByOldReg } from '../utils';
 
@@ -27,6 +28,16 @@ import styles from './index.less';
 
 const reg = /(~{2}\d+={2})/g;
 const curReg = /(~{2}\d+\${2})/g;
+=======
+import { preprocessLaTeX, replaceThinkToSection } from '@/utils/chat';
+import { replaceTextByOldReg } from '../utils';
+
+import { pipe } from 'lodash/fp';
+import styles from './index.less';
+
+const reg = /(~{2}\d+={2})/g;
+// const curReg = /(~{2}\d+\${2})/g;
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 const getChunkIndex = (match: string) => Number(match.slice(2, -2));
 // TODO: The display of the table is inconsistent with the display previously placed in the MessageItem.
@@ -34,7 +45,10 @@ const MarkdownContent = ({
   reference,
   clickDocumentButton,
   content,
+<<<<<<< HEAD
   loading,
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 }: {
   content: string;
   loading: boolean;
@@ -50,8 +64,13 @@ const MarkdownContent = ({
       text = t('chat.searching');
     }
     const nextText = replaceTextByOldReg(text);
+<<<<<<< HEAD
     return loading ? nextText?.concat('~~2$$') : preprocessLaTeX(nextText);
   }, [content, loading, t]);
+=======
+    return pipe(replaceThinkToSection, preprocessLaTeX)(nextText);
+  }, [content, t]);
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
   useEffect(() => {
     const docAggs = reference?.doc_aggs;
@@ -59,12 +78,31 @@ const MarkdownContent = ({
   }, [reference, setDocumentIds]);
 
   const handleDocumentButtonClick = useCallback(
+<<<<<<< HEAD
     (documentId: string, chunk: IReferenceChunk, isPdf: boolean) => () => {
       if (!isPdf) {
         return;
       }
       clickDocumentButton?.(documentId, chunk);
     },
+=======
+    (
+      documentId: string,
+      chunk: IReferenceChunk,
+      isPdf: boolean,
+      documentUrl?: string,
+    ) =>
+      () => {
+        if (!isPdf) {
+          if (!documentUrl) {
+            return;
+          }
+          window.open(documentUrl, '_blank');
+        } else {
+          clickDocumentButton?.(documentId, chunk);
+        }
+      },
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     [clickDocumentButton],
   );
 
@@ -93,6 +131,10 @@ const MarkdownContent = ({
         (x) => x?.doc_id === chunkItem?.document_id,
       );
       const documentId = document?.doc_id;
+<<<<<<< HEAD
+=======
+      const documentUrl = document?.url;
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       const fileThumbnail = documentId ? fileThumbnails[documentId] : '';
       const fileExtension = documentId ? getExtension(document?.doc_name) : '';
       const imageId = chunkItem?.image_id;
@@ -146,6 +188,10 @@ const MarkdownContent = ({
                     documentId,
                     chunkItem,
                     fileExtension === 'pdf',
+<<<<<<< HEAD
+=======
+                    documentUrl,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                   )}
                 >
                   {document?.doc_name}
@@ -170,9 +216,15 @@ const MarkdownContent = ({
         );
       });
 
+<<<<<<< HEAD
       replacedText = reactStringReplace(replacedText, curReg, (match, i) => (
         <span className={styles.cursor} key={i}></span>
       ));
+=======
+      // replacedText = reactStringReplace(replacedText, curReg, (match, i) => (
+      //   <span className={styles.cursor} key={i}></span>
+      // ));
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
       return replacedText;
     },
@@ -183,6 +235,10 @@ const MarkdownContent = ({
     <Markdown
       rehypePlugins={[rehypeWrapReference, rehypeKatex, rehypeRaw]}
       remarkPlugins={[remarkGfm, remarkMath]}
+<<<<<<< HEAD
+=======
+      className={styles.markdownContentWrapper}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       components={
         {
           'custom-typography': ({ children }: { children: string }) =>

@@ -17,6 +17,10 @@ import json
 import re
 import traceback
 from copy import deepcopy
+<<<<<<< HEAD
+=======
+import trio
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 from api.db.db_models import APIToken
 
 from api.db.services.conversation_service import ConversationService, structure_answer
@@ -25,13 +29,21 @@ from flask import request, Response
 from flask_login import login_required, current_user
 
 from api.db import LLMType
+<<<<<<< HEAD
 from api.db.services.dialog_service import DialogService, chat, ask, label_question
+=======
+from api.db.services.dialog_service import DialogService, chat, ask
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 from api.db.services.knowledgebase_service import KnowledgebaseService
 from api.db.services.llm_service import LLMBundle, TenantService
 from api import settings
 from api.utils.api_utils import get_json_result
 from api.utils.api_utils import server_error_response, get_data_error_result, validate_request
 from graphrag.general.mind_map_extractor import MindMapExtractor
+<<<<<<< HEAD
+=======
+from rag.app.tag import label_question
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 
 @manager.route('/set', methods=['POST'])  # noqa: F821
@@ -385,7 +397,12 @@ def mindmap():
                                            rank_feature=label_question(question, [kb])
                                            )
     mindmap = MindMapExtractor(chat_mdl)
+<<<<<<< HEAD
     mind_map = mindmap([c["content_with_weight"] for c in ranks["chunks"]]).output
+=======
+    mind_map = trio.run(mindmap, [c["content_with_weight"] for c in ranks["chunks"]])
+    mind_map = mind_map.output
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     if "error" in mind_map:
         return server_error_response(Exception(mind_map["error"]))
     return get_json_result(data=mind_map)

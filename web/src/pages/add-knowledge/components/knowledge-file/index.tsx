@@ -69,6 +69,13 @@ const KnowledgeFile = () => {
     showDocumentUploadModal,
     onDocumentUploadOk,
     documentUploadLoading,
+<<<<<<< HEAD
+=======
+    uploadFileList,
+    setUploadFileList,
+    uploadProgress,
+    setUploadProgress,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   } = useHandleUploadDocument();
   const {
     webCrawlUploadVisible,
@@ -229,6 +236,13 @@ const KnowledgeFile = () => {
         hideModal={hideDocumentUploadModal}
         loading={documentUploadLoading}
         onOk={onDocumentUploadOk}
+<<<<<<< HEAD
+=======
+        uploadFileList={uploadFileList}
+        setUploadFileList={setUploadFileList}
+        uploadProgress={uploadProgress}
+        setUploadProgress={setUploadProgress}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       ></FileUploadModal>
       <WebCrawlModal
         visible={webCrawlUploadVisible}

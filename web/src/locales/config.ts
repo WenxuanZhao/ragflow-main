@@ -2,6 +2,10 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
+<<<<<<< HEAD
+=======
+import { LanguageAbbreviation } from '@/constants/common';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import translation_en from './en';
 import translation_es from './es';
 import translation_id from './id';
@@ -13,6 +17,7 @@ import translation_zh from './zh';
 import translation_zh_traditional from './zh-traditional';
 
 const resources = {
+<<<<<<< HEAD
   en: translation_en,
   zh: translation_zh,
   'zh-TRADITIONAL': translation_zh_traditional,
@@ -21,6 +26,16 @@ const resources = {
   es: translation_es,
   vi: translation_vi,
   'pt-BR': translation_pt_br,
+=======
+  [LanguageAbbreviation.En]: translation_en,
+  [LanguageAbbreviation.Zh]: translation_zh,
+  [LanguageAbbreviation.ZhTraditional]: translation_zh_traditional,
+  [LanguageAbbreviation.Id]: translation_id,
+  [LanguageAbbreviation.Ja]: translation_ja,
+  [LanguageAbbreviation.Es]: translation_es,
+  [LanguageAbbreviation.Vi]: translation_vi,
+  [LanguageAbbreviation.PtBr]: translation_pt_br,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 };
 const enFlattened = flattenObject(translation_en);
 const viFlattened = flattenObject(translation_vi);
@@ -48,6 +63,7 @@ i18n
     detection: {
       lookupLocalStorage: 'lng',
     },
+<<<<<<< HEAD
     supportedLngs: [
       'en',
       'zh',
@@ -58,6 +74,9 @@ i18n
       'ja',
       'pt-BR',
     ],
+=======
+    supportedLngs: Object.values(LanguageAbbreviation),
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     resources,
     fallbackLng: 'en',
     interpolation: {

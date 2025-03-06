@@ -15,6 +15,7 @@
 #
 import logging
 import binascii
+<<<<<<< HEAD
 import os
 import json
 import json_repair
@@ -37,6 +38,26 @@ from rag.nlp.search import index_name
 from rag.settings import TAG_FLD
 from rag.utils import rmSpace, num_tokens_from_string, encoder
 from api.utils.file_utils import get_project_base_directory
+=======
+import time
+from functools import partial
+import re
+from copy import deepcopy
+from timeit import default_timer as timer
+from agentic_reasoning import DeepResearcher
+from api.db import LLMType, ParserType, StatusEnum
+from api.db.db_models import Dialog, DB
+from api.db.services.common_service import CommonService
+from api.db.services.knowledgebase_service import KnowledgebaseService
+from api.db.services.llm_service import TenantLLMService, LLMBundle
+from api import settings
+from rag.app.resume import forbidden_select_fields4resume
+from rag.app.tag import label_question
+from rag.nlp.search import index_name
+from rag.prompts import kb_prompt, message_fit_in, llm_id2llm_type, keyword_extraction, full_question, chunks_format
+from rag.utils import rmSpace, num_tokens_from_string
+from rag.utils.tavily_conn import Tavily
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 
 class DialogService(CommonService):
@@ -65,6 +86,7 @@ class DialogService(CommonService):
         return list(chats.dicts())
 
 
+<<<<<<< HEAD
 def message_fit_in(msg, max_length=4000):
     def count():
         nonlocal msg
@@ -165,10 +187,41 @@ def label_question(question, kbs):
                                               kb.parser_config.get("topn_tags", 3)
                                               )
     return tags
+=======
+def chat_solo(dialog, messages, stream=True):
+    if llm_id2llm_type(dialog.llm_id) == "image2text":
+        chat_mdl = LLMBundle(dialog.tenant_id, LLMType.IMAGE2TEXT, dialog.llm_id)
+    else:
+        chat_mdl = LLMBundle(dialog.tenant_id, LLMType.CHAT, dialog.llm_id)
+
+    prompt_config = dialog.prompt_config
+    tts_mdl = None
+    if prompt_config.get("tts"):
+        tts_mdl = LLMBundle(dialog.tenant_id, LLMType.TTS)
+    msg = [{"role": m["role"], "content": re.sub(r"##\d+\$\$", "", m["content"])}
+           for m in messages if m["role"] != "system"]
+    if stream:
+        last_ans = ""
+        for ans in chat_mdl.chat_streamly(prompt_config.get("system", ""), msg, dialog.llm_setting):
+            answer = ans
+            delta_ans = ans[len(last_ans):]
+            if num_tokens_from_string(delta_ans) < 16:
+                continue
+            last_ans = answer
+            yield {"answer": answer, "reference": {}, "audio_binary": tts(tts_mdl, delta_ans), "prompt": "", "created_at": time.time()}
+        if delta_ans:
+            yield {"answer": answer, "reference": {}, "audio_binary": tts(tts_mdl, delta_ans), "prompt": "", "created_at": time.time()}
+    else:
+        answer = chat_mdl.chat(prompt_config.get("system", ""), msg, dialog.llm_setting)
+        user_content = msg[-1].get("content", "[content not available]")
+        logging.debug("User: {}|Assistant: {}".format(user_content, answer))
+        yield {"answer": answer, "reference": {}, "audio_binary": tts(tts_mdl, answer), "prompt": "", "created_at": time.time()}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 
 def chat(dialog, messages, stream=True, **kwargs):
     assert messages[-1]["role"] == "user", "The last content of this conversation is not from user."
+<<<<<<< HEAD
 
     chat_start_ts = timer()
 
@@ -187,6 +240,21 @@ def chat(dialog, messages, stream=True, **kwargs):
         max_tokens = 8192
     else:
         max_tokens = llm[0].max_tokens
+=======
+    if not dialog.kb_ids:
+        for ans in chat_solo(dialog, messages, stream):
+            yield ans
+        return
+
+    chat_start_ts = timer()
+
+    if llm_id2llm_type(dialog.llm_id) == "image2text":
+        llm_model_config = TenantLLMService.get_model_config(dialog.tenant_id, LLMType.IMAGE2TEXT, dialog.llm_id)
+    else:
+        llm_model_config = TenantLLMService.get_model_config(dialog.tenant_id, LLMType.CHAT, dialog.llm_id)
+
+    max_tokens = llm_model_config.get("max_tokens", 8192)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     check_llm_ts = timer()
 
@@ -204,9 +272,12 @@ def chat(dialog, messages, stream=True, **kwargs):
     attachments = kwargs["doc_ids"].split(",") if "doc_ids" in kwargs else None
     if "doc_ids" in messages[-1]:
         attachments = messages[-1]["doc_ids"]
+<<<<<<< HEAD
         for m in messages[:-1]:
             if "doc_ids" in m:
                 attachments.extend(m["doc_ids"])
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     create_retriever_ts = timer()
 
@@ -258,9 +329,17 @@ def chat(dialog, messages, stream=True, **kwargs):
 
     bind_reranker_ts = timer()
     generate_keyword_ts = bind_reranker_ts
+<<<<<<< HEAD
 
     if "knowledge" not in [p["key"] for p in prompt_config["parameters"]]:
         kbinfos = {"total": 0, "chunks": [], "doc_aggs": []}
+=======
+    thought = ""
+    kbinfos = {"total": 0, "chunks": [], "doc_aggs": []}
+
+    if "knowledge" not in [p["key"] for p in prompt_config["parameters"]]:
+        knowledges = []
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     else:
         if prompt_config.get("keyword", False):
             questions[-1] += keyword_extraction(chat_mdl, questions[-1])
@@ -268,6 +347,7 @@ def chat(dialog, messages, stream=True, **kwargs):
 
         tenant_ids = list(set([kb.tenant_id for kb in kbs]))
 
+<<<<<<< HEAD
         kbinfos = retriever.retrieval(" ".join(questions), embd_mdl, tenant_ids, dialog.kb_ids, 1, dialog.top_n,
                                       dialog.similarity_threshold,
                                       dialog.vector_similarity_weight,
@@ -290,6 +370,48 @@ def chat(dialog, messages, stream=True, **kwargs):
     logging.debug(
         "{}->{}".format(" ".join(questions), "\n->".join(knowledges)))
 
+=======
+        knowledges = []
+        if prompt_config.get("reasoning", False):
+            reasoner = DeepResearcher(chat_mdl,
+                                      prompt_config,
+                                      partial(retriever.retrieval, embd_mdl=embd_mdl, tenant_ids=tenant_ids, kb_ids=dialog.kb_ids, page=1, page_size=dialog.top_n, similarity_threshold=0.2, vector_similarity_weight=0.3))
+
+            for think in reasoner.thinking(kbinfos, " ".join(questions)):
+                if isinstance(think, str):
+                    thought = think
+                    knowledges = [t for t in think.split("\n") if t]
+                elif stream:
+                    yield think
+        else:
+            kbinfos = retriever.retrieval(" ".join(questions), embd_mdl, tenant_ids, dialog.kb_ids, 1, dialog.top_n,
+                                          dialog.similarity_threshold,
+                                          dialog.vector_similarity_weight,
+                                          doc_ids=attachments,
+                                          top=dialog.top_k, aggs=False, rerank_mdl=rerank_mdl,
+                                          rank_feature=label_question(" ".join(questions), kbs)
+                                          )
+            if prompt_config.get("tavily_api_key"):
+                tav = Tavily(prompt_config["tavily_api_key"])
+                tav_res = tav.retrieve_chunks(" ".join(questions))
+                kbinfos["chunks"].extend(tav_res["chunks"])
+                kbinfos["doc_aggs"].extend(tav_res["doc_aggs"])
+            if prompt_config.get("use_kg"):
+                ck = settings.kg_retrievaler.retrieval(" ".join(questions),
+                                                       tenant_ids,
+                                                       dialog.kb_ids,
+                                                       embd_mdl,
+                                                       LLMBundle(dialog.tenant_id, LLMType.CHAT))
+                if ck["content_with_weight"]:
+                    kbinfos["chunks"].insert(0, ck)
+
+            knowledges = kb_prompt(kbinfos, max_tokens)
+
+    logging.debug(
+        "{}->{}".format(" ".join(questions), "\n->".join(knowledges)))
+
+    retrieval_ts = timer()
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     if not knowledges and prompt_config.get("empty_response"):
         empty_res = prompt_config["empty_response"]
         yield {"answer": empty_res, "reference": kbinfos, "audio_binary": tts(tts_mdl, empty_res)}
@@ -304,7 +426,10 @@ def chat(dialog, messages, stream=True, **kwargs):
     used_token_count, msg = message_fit_in(msg, int(max_tokens * 0.97))
     assert len(msg) >= 2, f"message_fit_in has bug: {msg}"
     prompt = msg[0]["content"]
+<<<<<<< HEAD
     prompt += "\n\n### Query:\n%s" % " ".join(questions)
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     if "max_tokens" in gen_conf:
         gen_conf["max_tokens"] = min(
@@ -312,11 +437,22 @@ def chat(dialog, messages, stream=True, **kwargs):
             max_tokens - used_token_count)
 
     def decorate_answer(answer):
+<<<<<<< HEAD
         nonlocal prompt_config, knowledges, kwargs, kbinfos, prompt, retrieval_ts
 
         finish_chat_ts = timer()
 
         refs = []
+=======
+        nonlocal prompt_config, knowledges, kwargs, kbinfos, prompt, retrieval_ts, questions
+
+        refs = []
+        ans = answer.split("</think>")
+        think = ""
+        if len(ans) == 2:
+            think = ans[0] + "</think>"
+            answer = ans[1]
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         if knowledges and (prompt_config.get("quote", True) and kwargs.get("quote", True)):
             answer, idx = retriever.insert_citations(answer,
                                                      [ck["content_ltks"]
@@ -353,18 +489,30 @@ def chat(dialog, messages, stream=True, **kwargs):
         retrieval_time_cost = (retrieval_ts - generate_keyword_ts) * 1000
         generate_result_time_cost = (finish_chat_ts - retrieval_ts) * 1000
 
+<<<<<<< HEAD
         prompt = f"{prompt}\n\n - Total: {total_time_cost:.1f}ms\n  - Check LLM: {check_llm_time_cost:.1f}ms\n  - Create retriever: {create_retriever_time_cost:.1f}ms\n  - Bind embedding: {bind_embedding_time_cost:.1f}ms\n  - Bind LLM: {bind_llm_time_cost:.1f}ms\n  - Tune question: {refine_question_time_cost:.1f}ms\n  - Bind reranker: {bind_reranker_time_cost:.1f}ms\n  - Generate keyword: {generate_keyword_time_cost:.1f}ms\n  - Retrieval: {retrieval_time_cost:.1f}ms\n  - Generate answer: {generate_result_time_cost:.1f}ms"
         return {"answer": answer, "reference": refs, "prompt": re.sub(r"\n", "  \n", prompt)}
+=======
+        prompt += "\n\n### Query:\n%s" % " ".join(questions)
+        prompt = f"{prompt}\n\n - Total: {total_time_cost:.1f}ms\n  - Check LLM: {check_llm_time_cost:.1f}ms\n  - Create retriever: {create_retriever_time_cost:.1f}ms\n  - Bind embedding: {bind_embedding_time_cost:.1f}ms\n  - Bind LLM: {bind_llm_time_cost:.1f}ms\n  - Tune question: {refine_question_time_cost:.1f}ms\n  - Bind reranker: {bind_reranker_time_cost:.1f}ms\n  - Generate keyword: {generate_keyword_time_cost:.1f}ms\n  - Retrieval: {retrieval_time_cost:.1f}ms\n  - Generate answer: {generate_result_time_cost:.1f}ms"
+        return {"answer": think+answer, "reference": refs, "prompt": re.sub(r"\n", "  \n", prompt), "created_at": time.time()}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     if stream:
         last_ans = ""
         answer = ""
         for ans in chat_mdl.chat_streamly(prompt, msg[1:], gen_conf):
+<<<<<<< HEAD
+=======
+            if thought:
+                ans = re.sub(r"<think>.*</think>", "", ans, flags=re.DOTALL)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             answer = ans
             delta_ans = ans[len(last_ans):]
             if num_tokens_from_string(delta_ans) < 16:
                 continue
             last_ans = answer
+<<<<<<< HEAD
             yield {"answer": answer, "reference": {}, "audio_binary": tts(tts_mdl, delta_ans)}
         delta_ans = answer[len(last_ans):]
         if delta_ans:
@@ -374,6 +522,17 @@ def chat(dialog, messages, stream=True, **kwargs):
         answer = chat_mdl.chat(prompt, msg[1:], gen_conf)
         logging.debug("User: {}|Assistant: {}".format(
             msg[-1]["content"], answer))
+=======
+            yield {"answer": thought+answer, "reference": {}, "audio_binary": tts(tts_mdl, delta_ans)}
+        delta_ans = answer[len(last_ans):]
+        if delta_ans:
+            yield {"answer": thought+answer, "reference": {}, "audio_binary": tts(tts_mdl, delta_ans)}
+        yield decorate_answer(thought+answer)
+    else:
+        answer = chat_mdl.chat(prompt, msg[1:], gen_conf)
+        user_content = msg[-1].get("content", "[content not available]")
+        logging.debug("User: {}|Assistant: {}".format(user_content, answer))
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         res = decorate_answer(answer)
         res["audio_binary"] = tts(tts_mdl, answer)
         yield res
@@ -506,6 +665,7 @@ Please write the SQL, only SQL, without any other explanations or text.
     }
 
 
+<<<<<<< HEAD
 def relevant(tenant_id, llm_id, question, contents: list):
     if llm_id2llm_type(llm_id) == "image2text":
         chat_mdl = LLMBundle(tenant_id, LLMType.IMAGE2TEXT, llm_id)
@@ -672,6 +832,8 @@ Output: What's the weather in Rochester on {tomorrow}?
     return ans if ans.find("**ERROR**") < 0 else messages[-1]["content"]
 
 
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 def tts(tts_mdl, text):
     if not tts_mdl or not text:
         return
@@ -738,6 +900,10 @@ def ask(question, kb_ids, tenant_id):
 
         if answer.lower().find("invalid key") >= 0 or answer.lower().find("invalid api") >= 0:
             answer += " Please set LLM API-Key in 'User Setting -> Model Providers -> API-Key'"
+<<<<<<< HEAD
+=======
+        refs["chunks"] = chunks_format(refs)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         return {"answer": answer, "reference": refs}
 
     answer = ""
@@ -745,6 +911,7 @@ def ask(question, kb_ids, tenant_id):
         answer = ans
         yield {"answer": answer, "reference": {}}
     yield decorate_answer(answer)
+<<<<<<< HEAD
 
 
 def content_tagging(chat_mdl, content, all_tags, examples, topn=3):
@@ -806,3 +973,5 @@ Output:
         except Exception as e:
             logging.exception(f"JSON parsing error: {result} -> {e}")
             raise e
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

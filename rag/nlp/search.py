@@ -448,6 +448,11 @@ class Dealer:
         return res
 
     def all_tags(self, tenant_id: str, kb_ids: list[str], S=1000):
+<<<<<<< HEAD
+=======
+        if not self.dataStore.indexExist(index_name(tenant_id), kb_ids[0]):
+            return []
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         res = self.dataStore.search([], [], {}, [], OrderByExpr(), 0, 0, index_name(tenant_id), kb_ids, ["tag_kwd"])
         return self.dataStore.getAggregation(res, "tag_kwd")
 

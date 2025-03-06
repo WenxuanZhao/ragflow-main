@@ -3,7 +3,11 @@ sidebar_position: 4
 slug: /manage_team_members
 ---
 
+<<<<<<< HEAD
 # Manage team members
+=======
+# Team
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 Invite or remove team members, join or leave a team.
 
@@ -11,8 +15,14 @@ Invite or remove team members, join or leave a team.
 
 By default, each RAGFlow user is assigned a single team named after their name. RAGFlow allows you to invite RAGFlow users to your team. Your team members can help you:
 
+<<<<<<< HEAD
 - Upload documents to your datasets.
 - Update document configurations in your datasets.
+=======
+- Upload documents to your datasets (knowledge bases).
+- Update document configurations in your datasets.
+- Update the default configurations for your datasets.
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 - Parse documents in your datasets.
 
 :::tip NOTE

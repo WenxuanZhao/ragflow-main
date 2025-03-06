@@ -15,6 +15,11 @@ from collections import defaultdict
 from copy import deepcopy
 from hashlib import md5
 from typing import Any, Callable
+<<<<<<< HEAD
+=======
+import os
+import trio
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 import networkx as nx
 import numpy as np
@@ -28,6 +33,10 @@ from rag.utils.redis_conn import REDIS_CONN
 
 ErrorHandlerFn = Callable[[BaseException | None, str | None, dict | None], None]
 
+<<<<<<< HEAD
+=======
+chat_limiter = trio.CapacityLimiter(int(os.environ.get('MAX_CONCURRENT_CHATS', 100)))
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 def perform_variable_replacements(
     input: str, history: list[dict] | None = None, variables: dict | None = None
@@ -524,7 +533,11 @@ def rebuild_graph(tenant_id, kb_id):
     src_ids = []
     flds = ["entity_kwd", "entity_type_kwd", "from_entity_kwd", "to_entity_kwd", "weight_int", "knowledge_graph_kwd", "source_id"]
     bs = 256
+<<<<<<< HEAD
     for i in range(0, 10000000, bs):
+=======
+    for i in range(0, 39*bs, bs):
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         es_res = settings.docStoreConn.search(flds, [],
                                  {"kb_id": kb_id, "knowledge_graph_kwd": ["entity", "relation"]},
                                  [],
@@ -540,7 +553,11 @@ def rebuild_graph(tenant_id, kb_id):
             src_ids.extend(d.get("source_id", []))
             if d["knowledge_graph_kwd"] == "entity":
                 graph.add_node(d["entity_kwd"], entity_type=d["entity_type_kwd"])
+<<<<<<< HEAD
             else:
+=======
+            elif "from_entity_kwd" in d and "to_entity_kwd" in d:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 graph.add_edge(
                     d["from_entity_kwd"],
                     d["to_entity_kwd"],

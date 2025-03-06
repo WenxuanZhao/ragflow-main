@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 import { EmptyConversationId } from '@/constants/chat';
+=======
+import {
+  ChatVariableEnabledField,
+  EmptyConversationId,
+} from '@/constants/chat';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { Message } from '@/interfaces/database/chat';
 import { IMessage } from '@/pages/chat/interface';
 import { omit } from 'lodash';
@@ -49,3 +56,20 @@ export const preprocessLaTeX = (content: string) => {
   );
   return inlineProcessedContent;
 };
+<<<<<<< HEAD
+=======
+
+export function replaceThinkToSection(text: string = '') {
+  const pattern = /<think>([\s\S]*?)<\/think>/g;
+
+  const result = text.replace(pattern, '<section class="think">$1</section>');
+
+  return result;
+}
+
+export function setInitialChatVariableEnabledFieldValue(
+  field: ChatVariableEnabledField,
+) {
+  return field !== ChatVariableEnabledField.MaxTokensEnabled;
+}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

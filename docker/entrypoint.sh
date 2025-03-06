@@ -17,8 +17,14 @@ if [[ -z "$WS" || $WS -lt 1 ]]; then
 fi
 
 function task_exe(){
+<<<<<<< HEAD
     while [ 1 -eq 1 ];do
       $PY rag/svr/task_executor.py $1;
+=======
+    JEMALLOC_PATH=$(pkg-config --variable=libdir jemalloc)/libjemalloc.so
+    while [ 1 -eq 1 ];do
+      LD_PRELOAD=$JEMALLOC_PATH $PY rag/svr/task_executor.py $1;
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     done
 }
 

@@ -28,6 +28,10 @@ import sys
 import time
 import traceback
 from concurrent.futures import ThreadPoolExecutor
+<<<<<<< HEAD
+=======
+import threading
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 from werkzeug.serving import run_simple
 from api import settings
@@ -42,6 +46,7 @@ from api.versions import get_ragflow_version
 from api.utils import show_configs
 from rag.settings import print_rag_settings
 
+<<<<<<< HEAD
 
 def update_progress():
     while True:
@@ -51,6 +56,23 @@ def update_progress():
         except Exception:
             logging.exception("update_progress exception")
 
+=======
+stop_event = threading.Event()
+
+def update_progress():
+    while not stop_event.is_set():
+        try:
+            DocumentService.update_progress()
+            stop_event.wait(6)
+        except Exception:
+            logging.exception("update_progress exception")
+
+def signal_handler(sig, frame):
+    logging.info("Received interrupt signal, shutting down...")
+    stop_event.set()
+    time.sleep(1)
+    sys.exit(0)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 if __name__ == '__main__':
     logging.info(r"""
@@ -96,6 +118,12 @@ if __name__ == '__main__':
     RuntimeConfig.init_env()
     RuntimeConfig.init_config(JOB_SERVER_HOST=settings.HOST_IP, HTTP_PORT=settings.HOST_PORT)
 
+<<<<<<< HEAD
+=======
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     thread = ThreadPoolExecutor(max_workers=1)
     thread.submit(update_progress)
 
@@ -112,4 +140,9 @@ if __name__ == '__main__':
         )
     except Exception:
         traceback.print_exc()
+<<<<<<< HEAD
+=======
+        stop_event.set()
+        time.sleep(1)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         os.kill(os.getpid(), signal.SIGKILL)

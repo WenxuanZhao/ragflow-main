@@ -38,7 +38,11 @@ def build_post_process(config, global_config=None):
     return module_class(**config)
 
 
+<<<<<<< HEAD
 class DBPostProcess(object):
+=======
+class DBPostProcess:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """
     The post process for Differentiable Binarization (DB).
     """
@@ -259,7 +263,11 @@ class DBPostProcess(object):
         return boxes_batch
 
 
+<<<<<<< HEAD
 class BaseRecLabelDecode(object):
+=======
+class BaseRecLabelDecode:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     """ Convert between text-label and text-index """
 
     def __init__(self, character_dict_path=None, use_space_char=False):

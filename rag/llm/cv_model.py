@@ -162,6 +162,10 @@ class GptV4(Base):
         )
         return res.choices[0].message.content.strip(), res.usage.total_tokens
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 class AzureGptV4(Base):
     def __init__(self, key, model_name, lang="Chinese", **kwargs):
         api_key = json.loads(key).get('api_key', '')
@@ -485,7 +489,11 @@ class XinferenceCV(Base):
         return res.choices[0].message.content.strip(), res.usage.total_tokens
 
 class GeminiCV(Base):
+<<<<<<< HEAD
     def __init__(self, key, model_name="gemini-2.0-flash-exp", lang="Chinese", **kwargs):
+=======
+    def __init__(self, key, model_name="gemini-1.0-pro-vision-latest", lang="Chinese", **kwargs):
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         from google.generativeai import client, GenerativeModel
         client.configure(api_key=key)
         _client = client.get_default_generative_client()

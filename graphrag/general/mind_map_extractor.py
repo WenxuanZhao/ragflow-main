@@ -16,6 +16,7 @@
 
 import logging
 import collections
+<<<<<<< HEAD
 import os
 import re
 import traceback
@@ -26,6 +27,16 @@ from dataclasses import dataclass
 from graphrag.general.extractor import Extractor
 from graphrag.general.mind_map_prompt import MIND_MAP_EXTRACTION_PROMPT
 from graphrag.utils import ErrorHandlerFn, perform_variable_replacements
+=======
+import re
+from typing import Any
+from dataclasses import dataclass
+import trio
+
+from graphrag.general.extractor import Extractor
+from graphrag.general.mind_map_prompt import MIND_MAP_EXTRACTION_PROMPT
+from graphrag.utils import ErrorHandlerFn, perform_variable_replacements, chat_limiter
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 from rag.llm.chat_model import Base as CompletionLLM
 import markdown_to_json
 from functools import reduce
@@ -80,13 +91,18 @@ class MindMapExtractor(Extractor):
                 )
         return arr
 
+<<<<<<< HEAD
     def __call__(
+=======
+    async def __call__(
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             self, sections: list[str], prompt_variables: dict[str, Any] | None = None
     ) -> MindMapResult:
         """Call method definition."""
         if prompt_variables is None:
             prompt_variables = {}
 
+<<<<<<< HEAD
         try:
             res = []
             max_workers = int(os.environ.get('MINDMAP_EXTRACTOR_MAX_WORKERS', 12))
@@ -137,6 +153,42 @@ class MindMapExtractor(Extractor):
                 traceback.format_exc(), None
             )
             merge_json = {"error": str(e)}
+=======
+        res = []
+        token_count = max(self._llm.max_length * 0.8, self._llm.max_length - 512)
+        texts = []
+        cnt = 0
+        async with trio.open_nursery() as nursery:
+            for i in range(len(sections)):
+                section_cnt = num_tokens_from_string(sections[i])
+                if cnt + section_cnt >= token_count and texts:
+                    nursery.start_soon(lambda: self._process_document("".join(texts), prompt_variables, res))
+                    texts = []
+                    cnt = 0
+                texts.append(sections[i])
+                cnt += section_cnt
+            if texts:
+                nursery.start_soon(lambda: self._process_document("".join(texts), prompt_variables, res))
+        if not res:
+            return MindMapResult(output={"id": "root", "children": []})
+        merge_json = reduce(self._merge, res)
+        if len(merge_json) > 1:
+            keys = [re.sub(r"\*+", "", k) for k, v in merge_json.items() if isinstance(v, dict)]
+            keyset = set(i for i in keys if i)
+            merge_json = {
+                "id": "root",
+                "children": [
+                    {
+                        "id": self._key(k),
+                        "children": self._be_children(v, keyset)
+                    }
+                    for k, v in merge_json.items() if isinstance(v, dict) and self._key(k)
+                ]
+            }
+        else:
+            k = self._key(list(merge_json.keys())[0])
+            merge_json = {"id": k, "children": self._be_children(list(merge_json.items())[0][1], {k})}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
         return MindMapResult(output=merge_json)
 
@@ -181,8 +233,13 @@ class MindMapExtractor(Extractor):
 
         return self._list_to_kv(to_ret)
 
+<<<<<<< HEAD
     def _process_document(
             self, text: str, prompt_variables: dict[str, str]
+=======
+    async def _process_document(
+            self, text: str, prompt_variables: dict[str, str], out_res
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     ) -> str:
         variables = {
             **prompt_variables,
@@ -190,8 +247,17 @@ class MindMapExtractor(Extractor):
         }
         text = perform_variable_replacements(self._mind_map_prompt, variables=variables)
         gen_conf = {"temperature": 0.5}
+<<<<<<< HEAD
         response = self._chat(text, [{"role": "user", "content": "Output:"}], gen_conf)
         response = re.sub(r"```[^\n]*", "", response)
         logging.debug(response)
         logging.debug(self._todict(markdown_to_json.dictify(response)))
         return self._todict(markdown_to_json.dictify(response))
+=======
+        async with chat_limiter:
+            response = await trio.to_thread.run_sync(lambda: self._chat(text, [{"role": "user", "content": "Output:"}], gen_conf))
+        response = re.sub(r"```[^\n]*", "", response)
+        logging.debug(response)
+        logging.debug(self._todict(markdown_to_json.dictify(response)))
+        out_res.append(self._todict(markdown_to_json.dictify(response)))
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

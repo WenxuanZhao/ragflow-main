@@ -38,6 +38,10 @@ class Session(Base):
             res = self._ask_agent(question, stream)
         elif self.__session_type == "chat":
             res = self._ask_chat(question, stream, **kwargs)
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         for line in res.iter_lines():
             line = line.decode("utf-8")
             if line.startswith("{"):
@@ -58,10 +62,20 @@ class Session(Base):
                 chunks = reference["chunks"]
                 temp_dict["reference"] = chunks
             message = Message(self.rag, temp_dict)
+<<<<<<< HEAD
             yield message
 
     def _ask_chat(self, question: str, stream: bool, **kwargs):
         json_data = {"question": question, "stream": True, "session_id": self.id}
+=======
+            if stream:
+                yield message
+        if not stream:
+            return message
+    
+    def _ask_chat(self, question: str, stream: bool, **kwargs):
+        json_data = {"question": question, "stream": stream, "session_id": self.id}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         json_data.update(kwargs)
         res = self.post(f"/chats/{self.chat_id}/completions",
                         json_data, stream=stream)
@@ -69,7 +83,11 @@ class Session(Base):
 
     def _ask_agent(self, question: str, stream: bool):
         res = self.post(f"/agents/{self.agent_id}/completions",
+<<<<<<< HEAD
                         {"question": question, "stream": True, "session_id": self.id}, stream=stream)
+=======
+                        {"question": question, "stream": stream, "session_id": self.id}, stream=stream)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         return res
 
     def update(self, update_message):

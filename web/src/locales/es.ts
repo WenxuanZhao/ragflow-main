@@ -99,7 +99,11 @@ export default {
       processDuration: 'Duración del proceso',
       progressMsg: 'Mensaje de progreso',
       testingDescription:
+<<<<<<< HEAD
         '¡Último paso! Después del éxito, deja el resto al AI de RAGFlow.',
+=======
+        '¡Último paso! Después del éxito, deja el resto al AI de RAGFlow. Por favor, tenga en cuenta que los cambios realizados aquí no se guardan automáticamente. Si ajusta la configuración predeterminada aquí, como el peso de similitud de palabras clave, asegúrese de actualizar la configuración relacionada de manera sincronizada en la configuración del asistente de chat o en la configuración del operador de recuperación.',
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       similarityThreshold: 'Umbral de similitud',
       similarityThresholdTip:
         'Usamos una puntuación de similitud híbrida para evaluar la distancia entre dos líneas de texto. Se pondera la similitud de palabras clave y la similitud coseno de vectores. Si la similitud entre la consulta y el fragmento es menor que este umbral, el fragmento será filtrado.',
@@ -480,6 +484,10 @@ export default {
       newFolder: 'Nueva carpeta',
       file: 'Archivo',
       uploadFile: 'Subir archivo',
+<<<<<<< HEAD
+=======
+      parseOnCreation: 'Ejecutar en la creación',
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       directory: 'Directorio',
       uploadTitle: 'Haz clic o arrastra el archivo a esta área para subir',
       uploadDescription:

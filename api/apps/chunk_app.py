@@ -19,9 +19,16 @@ import json
 from flask import request
 from flask_login import login_required, current_user
 
+<<<<<<< HEAD
 from api.db.services.dialog_service import keyword_extraction, label_question
 from rag.app.qa import rmPrefix, beAdoc
 from rag.nlp import search, rag_tokenizer
+=======
+from rag.app.qa import rmPrefix, beAdoc
+from rag.app.tag import label_question
+from rag.nlp import search, rag_tokenizer
+from rag.prompts import keyword_extraction
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 from rag.settings import PAGERANK_FLD
 from rag.utils import rmSpace
 from api.db import LLMType, ParserType
@@ -93,12 +100,23 @@ def get():
         tenants = UserTenantService.query(user_id=current_user.id)
         if not tenants:
             return get_data_error_result(message="Tenant not found!")
+<<<<<<< HEAD
         tenant_id = tenants[0].tenant_id
 
         kb_ids = KnowledgebaseService.get_kb_ids(tenant_id)
         chunk = settings.docStoreConn.get(chunk_id, search.index_name(tenant_id), kb_ids)
         if chunk is None:
             return server_error_response(Exception("Chunk not found"))
+=======
+        for tenant in tenants:
+            kb_ids = KnowledgebaseService.get_kb_ids(tenant.tenant_id)
+            chunk = settings.docStoreConn.get(chunk_id, search.index_name(tenant.tenant_id), kb_ids)
+            if chunk:
+                break
+        if chunk is None:
+            return server_error_response(Exception("Chunk not found"))
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         k = []
         for n in chunk.keys():
             if re.search(r"(_vec$|_sm_|_tks|_ltks)", n):

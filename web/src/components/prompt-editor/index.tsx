@@ -9,14 +9,27 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import {
   $getRoot,
+<<<<<<< HEAD
+=======
+  $getSelection,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   $nodesOfType,
   EditorState,
   Klass,
   LexicalNode,
 } from 'lexical';
 
+<<<<<<< HEAD
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+=======
+import { cn } from '@/lib/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { Variable } from 'lucide-react';
+import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import theme from './theme';
 import { VariableNode } from './variable-node';
 import { VariableOnChangePlugin } from './variable-on-change-plugin';
@@ -42,6 +55,61 @@ type IProps = {
   onChange?: (value?: string) => void;
 };
 
+<<<<<<< HEAD
+=======
+function PromptContent() {
+  const [editor] = useLexicalComposerContext();
+  const [isBlur, setIsBlur] = useState(false);
+  const { t } = useTranslation();
+
+  const insertTextAtCursor = useCallback(() => {
+    editor.update(() => {
+      const selection = $getSelection();
+
+      if (selection !== null) {
+        selection.insertText(' /');
+      }
+    });
+  }, [editor]);
+
+  const handleVariableIconClick = useCallback(() => {
+    insertTextAtCursor();
+  }, [insertTextAtCursor]);
+
+  const handleBlur = useCallback(() => {
+    setIsBlur(true);
+  }, []);
+
+  const handleFocus = useCallback(() => {
+    setIsBlur(false);
+  }, []);
+
+  return (
+    <section
+      className={cn('border rounded-sm ', { 'border-blue-400': !isBlur })}
+    >
+      <div className="border-b px-2 py-2 justify-end flex">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="inline-block cursor-pointer cursor p-0.5 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-sm">
+              <Variable size={16} onClick={handleVariableIconClick} />
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{t('flow.insertVariableTip')}</p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
+      <ContentEditable
+        className="min-h-40 relative px-2 py-1 focus-visible:outline-none"
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+      />
+    </section>
+  );
+}
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 export function PromptEditor({ value, onChange }: IProps) {
   const { t } = useTranslation();
   const initialConfig: InitialConfigType = {
@@ -69,9 +137,13 @@ export function PromptEditor({ value, onChange }: IProps) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <RichTextPlugin
+<<<<<<< HEAD
         contentEditable={
           <ContentEditable className="min-h-40 relative px-2 py-1 border" />
         }
+=======
+        contentEditable={<PromptContent></PromptContent>}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         placeholder={
           <div className="absolute top-2 left-2">{t('common.pleaseInput')}</div>
         }

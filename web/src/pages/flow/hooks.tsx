@@ -13,6 +13,7 @@ import React, {
   useState,
 } from 'react';
 // import { shallow } from 'zustand/shallow';
+<<<<<<< HEAD
 import { variableEnabledFieldMap } from '@/constants/chat';
 import {
   ModelVariableType,
@@ -20,15 +21,25 @@ import {
 } from '@/constants/knowledge';
 import { useFetchModelId } from '@/hooks/logic-hooks';
 import { Variable } from '@/interfaces/database/chat';
+=======
+import { settledModelVariableMap } from '@/constants/knowledge';
+import { useFetchModelId } from '@/hooks/logic-hooks';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import {
   ICategorizeForm,
   IRelevantForm,
   ISwitchForm,
   RAGFlowNodeType,
 } from '@/interfaces/database/flow';
+<<<<<<< HEAD
 import { FormInstance, message } from 'antd';
 import { humanId } from 'human-id';
 import { get, isEmpty, lowerFirst, pick } from 'lodash';
+=======
+import { message } from 'antd';
+import { humanId } from 'human-id';
+import { get, lowerFirst } from 'lodash';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import trim from 'lodash/trim';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
@@ -291,6 +302,7 @@ export const useHandleFormValuesChange = (id?: string) => {
   return { handleValuesChange };
 };
 
+<<<<<<< HEAD
 export const useSetLlmSetting = (
   form?: FormInstance,
   formData?: Record<string, any>,
@@ -323,6 +335,8 @@ export const useSetLlmSetting = (
   }, [form, initialLlmSetting]);
 };
 
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 export const useValidateConnection = () => {
   const { edges, getOperatorTypeFromId, getParentIdById } = useGraphStore(
     (state) => state,

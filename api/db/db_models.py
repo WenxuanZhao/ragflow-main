@@ -843,8 +843,13 @@ class Task(DataBaseModel):
     id = CharField(max_length=32, primary_key=True)
     doc_id = CharField(max_length=32, null=False, index=True)
     from_page = IntegerField(default=0)
+<<<<<<< HEAD
 
     to_page = IntegerField(default=100000000)
+=======
+    to_page = IntegerField(default=100000000)
+    task_type = CharField(max_length=32, null=False, default="")
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     begin_at = DateTimeField(null=True, index=True)
     process_duation = FloatField(default=0)
@@ -1115,3 +1120,13 @@ def migrate_db():
             )
         except Exception:
             pass
+<<<<<<< HEAD
+=======
+        try:
+            migrate(
+                migrator.add_column("task", "task_type",
+                                    CharField(max_length=32, null=False, default=""))
+            )
+        except Exception:
+            pass
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

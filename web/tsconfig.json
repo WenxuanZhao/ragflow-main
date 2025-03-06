@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
           "extends": "./src/.umi/tsconfig.json",
           "@@/*": ["src/.umi/*"],
           "root": ["../*"],
@@ -7,3 +8,9 @@
 
 
 
+=======
+  "extends": "./src/.umi/tsconfig.json",
+  "@@/*": ["src/.umi/*"],
+  "root": ["../*"],
+}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

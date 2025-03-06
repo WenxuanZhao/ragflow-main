@@ -116,6 +116,11 @@ class Docx(DocxParser):
                         if c.text == r.cells[j].text:
                             span += 1
                             i = j
+<<<<<<< HEAD
+=======
+                        else:
+                            break
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                     i += 1
                     html += f"<td>{c.text}</td>" if span == 1 else f"<td colspan='{span}'>{c.text}</td>"
                 html += "</tr>"

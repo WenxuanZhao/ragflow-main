@@ -284,7 +284,11 @@ export const useScrollToBottom = (messages?: unknown) => {
 export const useHandleMessageInputChange = () => {
   const [value, setValue] = useState('');
 
+<<<<<<< HEAD
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+=======
+  const handleInputChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     const value = e.target.value;
     const nextValue = value.replaceAll('\\n', '\n').replaceAll('\\t', '\t');
     setValue(nextValue);

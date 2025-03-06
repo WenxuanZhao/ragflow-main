@@ -54,7 +54,15 @@ const LlmSettingItems = ({ prefix, formItemLayout = {} }: IProps) => {
         {...formItemLayout}
         rules={[{ required: true, message: t('modelMessage') }]}
       >
+<<<<<<< HEAD
         <Select options={modelOptions} showSearch />
+=======
+        <Select
+          options={modelOptions}
+          showSearch
+          popupMatchSelectWidth={false}
+        />
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       </Form.Item>
       <div className="border rounded-md">
         <div className="flex justify-between bg-slate-100 p-2 mb-2">
@@ -269,6 +277,7 @@ const LlmSettingItems = ({ prefix, formItemLayout = {} }: IProps) => {
               </Form.Item>
             </Flex>
           </Form.Item>
+<<<<<<< HEAD
           <Form.Item
             label={t('maxTokens')}
             tooltip={t('maxTokensTip')}
@@ -317,6 +326,8 @@ const LlmSettingItems = ({ prefix, formItemLayout = {} }: IProps) => {
               </Form.Item>
             </Flex>
           </Form.Item>
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         </div>
       </div>
     </>

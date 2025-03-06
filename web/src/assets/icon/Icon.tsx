@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 import Icon from '@ant-design/icons';
 import { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
+=======
+import { cn } from '@/lib/utils';
+import Icon from '@ant-design/icons';
+import { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
+import { ChevronDown } from 'lucide-react';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 type IconComponentProps = CustomIconComponentProps;
 const currentColor = 'currentColor';
@@ -276,3 +283,17 @@ export const SemicolonIcon = (props: Partial<IconComponentProps>) => (
 export const CommaIcon = (props: Partial<IconComponentProps>) => (
   <Icon component={CommaSvg} {...props} />
 );
+<<<<<<< HEAD
+=======
+
+export function SideDown({ className }: { className?: string }) {
+  return (
+    <ChevronDown
+      className={cn(
+        'transition-transform group-data-[state=open]/collapsible:rotate-180',
+        className,
+      )}
+    />
+  );
+}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

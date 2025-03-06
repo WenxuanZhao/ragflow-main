@@ -16,6 +16,10 @@ import { UploadFile, message } from 'antd';
 import { get } from 'lodash';
 import { useCallback, useMemo, useState } from 'react';
 import { IHighlight } from 'react-pdf-highlighter';
+<<<<<<< HEAD
+=======
+import { useParams } from 'umi';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import {
   useGetPaginationWithRouter,
   useHandleSearchChange,
@@ -61,6 +65,10 @@ export const useFetchNextDocumentList = () => {
   const { knowledgeId } = useGetKnowledgeSearchParams();
   const { searchString, handleInputChange } = useHandleSearchChange();
   const { pagination, setPagination } = useGetPaginationWithRouter();
+<<<<<<< HEAD
+=======
+  const { id } = useParams();
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
   const { data, isFetching: loading } = useQuery<{
     docs: IDocumentInfo[];
@@ -69,9 +77,16 @@ export const useFetchNextDocumentList = () => {
     queryKey: ['fetchDocumentList', searchString, pagination],
     initialData: { docs: [], total: 0 },
     refetchInterval: 15000,
+<<<<<<< HEAD
     queryFn: async () => {
       const ret = await kbService.get_document_list({
         kb_id: knowledgeId,
+=======
+    enabled: !!knowledgeId || !!id,
+    queryFn: async () => {
+      const ret = await kbService.get_document_list({
+        kb_id: knowledgeId || id,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         keywords: searchString,
         page_size: pagination.pageSize,
         page: pagination.current,
@@ -254,9 +269,12 @@ export const useUploadNextDocument = () => {
       try {
         const ret = await kbService.document_upload(formData);
         const code = get(ret, 'data.code');
+<<<<<<< HEAD
         if (code === 0) {
           message.success(i18n.t('message.uploaded'));
         }
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
         if (code === 0 || code === 500) {
           queryClient.invalidateQueries({ queryKey: ['fetchDocumentList'] });
@@ -264,7 +282,14 @@ export const useUploadNextDocument = () => {
         return ret?.data;
       } catch (error) {
         console.warn(error);
+<<<<<<< HEAD
         return {};
+=======
+        return {
+          code: 500,
+          message: error + '',
+        };
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       }
     },
   });

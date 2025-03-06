@@ -22,11 +22,25 @@ export const useSendButtonDisabled = (value: string) => {
 
 export const useGetSharedChatSearchParams = () => {
   const [searchParams] = useSearchParams();
+<<<<<<< HEAD
 
+=======
+  const data_prefix = 'data_';
+  const data = Object.fromEntries(
+    searchParams
+      .entries()
+      .filter(([key, value]) => key.startsWith(data_prefix))
+      .map(([key, value]) => [key.replace(data_prefix, ''), value]),
+  );
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   return {
     from: searchParams.get('from') as SharedFrom,
     sharedId: searchParams.get('shared_id'),
     locale: searchParams.get('locale'),
+<<<<<<< HEAD
+=======
+    data: data,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     visibleAvatar: searchParams.get('visible_avatar')
       ? searchParams.get('visible_avatar') !== '1'
       : true,
@@ -34,7 +48,15 @@ export const useGetSharedChatSearchParams = () => {
 };
 
 export const useSendSharedMessage = () => {
+<<<<<<< HEAD
   const { from, sharedId: conversationId } = useGetSharedChatSearchParams();
+=======
+  const {
+    from,
+    sharedId: conversationId,
+    data: data,
+  } = useGetSharedChatSearchParams();
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   const { createSharedConversation: setConversation } =
     useCreateNextSharedConversation();
   const { handleInputChange, value, setValue } = useHandleMessageInputChange();
@@ -84,7 +106,12 @@ export const useSendSharedMessage = () => {
   );
 
   const fetchSessionId = useCallback(async () => {
+<<<<<<< HEAD
     const ret = await send({ question: '' });
+=======
+    const payload = { question: '' };
+    const ret = await send({ ...payload, ...data });
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     if (isCompletionError(ret)) {
       message.error(ret?.data.message);
       setHasError(true);

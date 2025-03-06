@@ -23,6 +23,11 @@ from api.db.services.dialog_service import DialogService, chat
 from api.utils import get_uuid
 import json
 
+<<<<<<< HEAD
+=======
+from rag.prompts import chunks_format
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 class ConversationService(CommonService):
     model = Conversation
@@ -53,6 +58,7 @@ def structure_answer(conv, ans, message_id, session_id):
         reference = {}
         ans["reference"] = {}
 
+<<<<<<< HEAD
     def get_value(d, k1, k2):
         return d.get(k1, d.get(k2))
 
@@ -65,6 +71,9 @@ def structure_answer(conv, ans, message_id, session_id):
         "image_id": get_value(chunk, "image_id", "img_id"),
         "positions": get_value(chunk, "positions", "position_int"),
     } for chunk in reference.get("chunks", [])]
+=======
+    chunk_list = chunks_format(reference)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     reference["chunks"] = chunk_list
     ans["id"] = message_id

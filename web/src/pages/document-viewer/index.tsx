@@ -1,11 +1,22 @@
 import { Images } from '@/constants/common';
 import { api_host } from '@/utils/api';
+<<<<<<< HEAD
 import { Flex, Image } from 'antd';
 import { useParams, useSearchParams } from 'umi';
 import Docx from './docx';
 import Excel from './excel';
 import Pdf from './pdf';
 
+=======
+import { Flex } from 'antd';
+import { useParams, useSearchParams } from 'umi';
+import Docx from './docx';
+import Excel from './excel';
+import Image from './image';
+import Pdf from './pdf';
+
+import { previewHtmlFile } from '@/utils/file-util';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import styles from './index.less';
 
 // TODO: The interface returns an incorrect content-type for the SVG.
@@ -17,6 +28,14 @@ const DocumentViewer = () => {
   const prefix = currentQueryParameters.get('prefix');
   const api = `${api_host}/${prefix || 'file'}/get/${documentId}`;
 
+<<<<<<< HEAD
+=======
+  if (ext === 'html' && documentId) {
+    previewHtmlFile(documentId);
+    return;
+  }
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   return (
     <section className={styles.viewerWrapper}>
       {Images.includes(ext!) && (

@@ -2,8 +2,15 @@ import { useTranslate } from '@/hooks/common-hooks';
 import { IModalProps } from '@/interfaces/common';
 import { InboxOutlined } from '@ant-design/icons';
 import {
+<<<<<<< HEAD
   Flex,
   Modal,
+=======
+  Checkbox,
+  Flex,
+  Modal,
+  Progress,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   Segmented,
   Tabs,
   TabsProps,
@@ -21,10 +28,18 @@ const FileUpload = ({
   directory,
   fileList,
   setFileList,
+<<<<<<< HEAD
+=======
+  uploadProgress,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 }: {
   directory: boolean;
   fileList: UploadFile[];
   setFileList: Dispatch<SetStateAction<UploadFile[]>>;
+<<<<<<< HEAD
+=======
+  uploadProgress: number;
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 }) => {
   const { t } = useTranslate('fileManager');
   const props: UploadProps = {
@@ -35,7 +50,11 @@ const FileUpload = ({
       newFileList.splice(index, 1);
       setFileList(newFileList);
     },
+<<<<<<< HEAD
     beforeUpload: (file) => {
+=======
+    beforeUpload: (file: UploadFile) => {
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       setFileList((pre) => {
         return [...pre, file];
       });
@@ -44,6 +63,7 @@ const FileUpload = ({
     },
     directory,
     fileList,
+<<<<<<< HEAD
   };
 
   return (
@@ -58,11 +78,41 @@ const FileUpload = ({
   );
 };
 
+=======
+    progress: {
+      strokeWidth: 2,
+    },
+  };
+
+  return (
+    <>
+      <Progress percent={uploadProgress} showInfo={false} />
+      <Dragger {...props} className={styles.uploader}>
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">{t('uploadTitle')}</p>
+        <p className="ant-upload-hint">{t('uploadDescription')}</p>
+        {false && <p className={styles.uploadLimit}>{t('uploadLimit')}</p>}
+      </Dragger>
+    </>
+  );
+};
+
+interface IFileUploadModalProps extends IModalProps<boolean> {
+  uploadFileList: UploadFile[];
+  setUploadFileList: Dispatch<SetStateAction<UploadFile[]>>;
+  uploadProgress: number;
+  setUploadProgress: Dispatch<SetStateAction<number>>;
+}
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 const FileUploadModal = ({
   visible,
   hideModal,
   loading,
   onOk: onFileUploadOk,
+<<<<<<< HEAD
 }: IModalProps<UploadFile[]>) => {
   const { t } = useTranslate('fileManager');
   const [value, setValue] = useState<string | number>('local');
@@ -76,6 +126,29 @@ const FileUploadModal = ({
 
   const onOk = async () => {
     const ret = await onFileUploadOk?.([...fileList, ...directoryFileList]);
+=======
+  uploadFileList: fileList,
+  setUploadFileList: setFileList,
+  uploadProgress,
+  setUploadProgress,
+}: IFileUploadModalProps) => {
+  const { t } = useTranslate('fileManager');
+  const [value, setValue] = useState<string | number>('local');
+  const [parseOnCreation, setParseOnCreation] = useState(false);
+
+  const clearFileList = () => {
+    setFileList([]);
+    setUploadProgress(0);
+  };
+
+  const onOk = async () => {
+    if (uploadProgress === 100) {
+      hideModal?.();
+      return;
+    }
+
+    const ret = await onFileUploadOk?.(parseOnCreation);
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     return ret;
   };
 
@@ -92,6 +165,10 @@ const FileUploadModal = ({
           directory={false}
           fileList={fileList}
           setFileList={setFileList}
+<<<<<<< HEAD
+=======
+          uploadProgress={uploadProgress}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         ></FileUpload>
       ),
     },
@@ -101,8 +178,14 @@ const FileUploadModal = ({
       children: (
         <FileUpload
           directory
+<<<<<<< HEAD
           fileList={directoryFileList}
           setFileList={setDirectoryFileList}
+=======
+          fileList={fileList}
+          setFileList={setFileList}
+          uploadProgress={uploadProgress}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         ></FileUpload>
       ),
     },
@@ -129,7 +212,19 @@ const FileUploadModal = ({
             onChange={setValue}
           />
           {value === 'local' ? (
+<<<<<<< HEAD
             <Tabs defaultActiveKey="1" items={items} />
+=======
+            <>
+              <Checkbox
+                checked={parseOnCreation}
+                onChange={(e) => setParseOnCreation(e.target.checked)}
+              >
+                {t('parseOnCreation')}
+              </Checkbox>
+              <Tabs defaultActiveKey="1" items={items} />
+            </>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
           ) : (
             t('comingSoon', { keyPrefix: 'common' })
           )}

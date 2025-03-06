@@ -20,7 +20,11 @@ from io import BytesIO
 from xpinyin import Pinyin
 import numpy as np
 import pandas as pd
+<<<<<<< HEAD
 from openpyxl import load_workbook
+=======
+# from openpyxl import load_workbook, Workbook
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 from dateutil.parser import parse as datetime_parse
 
 from api.db.services.knowledgebase_service import KnowledgebaseService
@@ -33,9 +37,15 @@ class Excel(ExcelParser):
     def __call__(self, fnm, binary=None, from_page=0,
                  to_page=10000000000, callback=None):
         if not binary:
+<<<<<<< HEAD
             wb = load_workbook(fnm)
         else:
             wb = load_workbook(BytesIO(binary))
+=======
+            wb = Excel._load_excel_to_workbook(fnm)
+        else:
+            wb = Excel._load_excel_to_workbook(BytesIO(binary))
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         total = 0
         for sheetname in wb.sheetnames:
             total += len(list(wb[sheetname].rows))
@@ -223,7 +233,11 @@ def chunk(filename, binary=None, from_page=0, to_page=10000000000,
                     continue
                 if not str(row[clmns[j]]):
                     continue
+<<<<<<< HEAD
                 if pd.isna(row[clmns[j]]):
+=======
+                if not isinstance(row[clmns[j]], pd.Series) and pd.isna(row[clmns[j]]):
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                     continue
                 fld = clmns_map[j][0]
                 d[fld] = row[clmns[j]] if clmn_tys[j] != "text" else rag_tokenizer.tokenize(

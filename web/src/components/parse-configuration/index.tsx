@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useTranslate } from '@/hooks/common-hooks';
 import { PlusOutlined } from '@ant-design/icons';
 import {
@@ -29,6 +30,37 @@ export const showRaptorParseConfiguration = (parserId: string) => {
 export const excludedTagParseMethods = ['table', 'knowledge_graph', 'tag'];
 
 export const showTagItems = (parserId: string) => {
+=======
+import { DocumentParserType } from '@/constants/knowledge';
+import { useTranslate } from '@/hooks/common-hooks';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Flex, Form, Input, InputNumber, Slider, Switch } from 'antd';
+import random from 'lodash/random';
+
+export const excludedParseMethods = [
+  DocumentParserType.Table,
+  DocumentParserType.Resume,
+  DocumentParserType.One,
+  DocumentParserType.Picture,
+  DocumentParserType.KnowledgeGraph,
+  DocumentParserType.Qa,
+  DocumentParserType.Tag,
+];
+
+export const showRaptorParseConfiguration = (
+  parserId: DocumentParserType | undefined,
+) => {
+  return !excludedParseMethods.some((x) => x === parserId);
+};
+
+export const excludedTagParseMethods = [
+  DocumentParserType.Table,
+  DocumentParserType.KnowledgeGraph,
+  DocumentParserType.Tag,
+];
+
+export const showTagItems = (parserId: DocumentParserType) => {
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   return !excludedTagParseMethods.includes(parserId);
 };
 
@@ -46,7 +78,10 @@ const ParseConfiguration = () => {
 
   return (
     <>
+<<<<<<< HEAD
       <Divider></Divider>
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       <Form.Item
         name={['parser_config', 'raptor', 'use_raptor']}
         label={t('useRaptor')}

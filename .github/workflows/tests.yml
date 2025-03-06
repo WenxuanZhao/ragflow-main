@@ -32,12 +32,18 @@ jobs:
       # https://github.com/hmarr/debug-action
       #- uses: hmarr/debug-action@v2
 
+<<<<<<< HEAD
       - name: Show PR labels
         run: |
           echo "Workflow triggered by ${{ github.event_name }}"
           if [[ ${{ github.event_name }} == 'pull_request' ]]; then
             echo "PR labels: ${{ join(github.event.pull_request.labels.*.name, ', ') }}"
           fi
+=======
+      - name: Show who triggered this workflow
+        run: |
+          echo "Workflow triggered by ${{ github.event_name }}"
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
       - name: Ensure workspace ownership
         run: echo "chown -R $USER $GITHUB_WORKSPACE" && sudo chown -R $USER $GITHUB_WORKSPACE
@@ -68,7 +74,11 @@ jobs:
 
       - name: Start ragflow:nightly-slim
         run: |
+<<<<<<< HEAD
           echo "RAGFLOW_IMAGE=infiniflow/ragflow:nightly-slim" >> docker/.env
+=======
+          echo -e "\nRAGFLOW_IMAGE=infiniflow/ragflow:nightly-slim" >> docker/.env
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
           sudo docker compose -f docker/docker-compose.yml up -d
 
       - name: Stop ragflow:nightly-slim
@@ -78,7 +88,11 @@ jobs:
 
       - name: Start ragflow:nightly
         run: |
+<<<<<<< HEAD
           echo "RAGFLOW_IMAGE=infiniflow/ragflow:nightly" >> docker/.env
+=======
+          echo -e "\nRAGFLOW_IMAGE=infiniflow/ragflow:nightly" >> docker/.env
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
           sudo docker compose -f docker/docker-compose.yml up -d
 
       - name: Run sdk tests against Elasticsearch
@@ -99,8 +113,22 @@ jobs:
             echo "Waiting for service to be available..."
             sleep 5
           done
+<<<<<<< HEAD
           cd sdk/python && uv sync --python 3.10 --frozen && uv pip install . && source .venv/bin/activate && cd test/test_frontend_api && pytest -s --tb=short get_email.py test_dataset.py 
           
+=======
+          cd sdk/python && uv sync --python 3.10 --frozen && uv pip install . && source .venv/bin/activate && cd test/test_frontend_api && pytest -s --tb=short get_email.py test_dataset.py
+          
+      - name: Run http api tests against Elasticsearch
+        run: |
+          export http_proxy=""; export https_proxy=""; export no_proxy=""; export HTTP_PROXY=""; export HTTPS_PROXY=""; export NO_PROXY=""
+          export HOST_ADDRESS=http://host.docker.internal:9380
+          until sudo docker exec ragflow-server curl -s --connect-timeout 5 ${HOST_ADDRESS} > /dev/null; do
+            echo "Waiting for service to be available..."
+            sleep 5
+          done
+          cd sdk/python && uv sync --python 3.10 --frozen && uv pip install . && source .venv/bin/activate && cd test/test_http_api && pytest -s --tb=short -m "not slow"
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
       - name: Stop ragflow:nightly
         if: always()  # always run this step even if previous steps failed
@@ -131,6 +159,19 @@ jobs:
           done
           cd sdk/python && uv sync --python 3.10 --frozen && uv pip install . && source .venv/bin/activate && cd test/test_frontend_api && pytest -s --tb=short get_email.py test_dataset.py
 
+<<<<<<< HEAD
+=======
+      - name: Run http api tests against Infinity
+        run: |
+          export http_proxy=""; export https_proxy=""; export no_proxy=""; export HTTP_PROXY=""; export HTTPS_PROXY=""; export NO_PROXY=""
+          export HOST_ADDRESS=http://host.docker.internal:9380
+          until sudo docker exec ragflow-server curl -s --connect-timeout 5 ${HOST_ADDRESS} > /dev/null; do
+            echo "Waiting for service to be available..."
+            sleep 5
+          done
+          cd sdk/python && uv sync --python 3.10 --frozen && uv pip install . && source .venv/bin/activate && cd test/test_http_api && pytest -s --tb=short -m "not slow"
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       - name: Stop ragflow:nightly
         if: always()  # always run this step even if previous steps failed
         run: |

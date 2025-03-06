@@ -31,6 +31,11 @@ spec:
         ports:
           - containerPort: 80
             name: http
+<<<<<<< HEAD
+=======
+          - containerPort: 9380
+            name: http-api
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         volumeMounts:
           - mountPath: /etc/nginx/conf.d/ragflow.conf
             subPath: ragflow.conf
@@ -70,3 +75,26 @@ spec:
       targetPort: http
       name: http
   type: {{ .Values.ragflow.service.type }}
+<<<<<<< HEAD
+=======
+---
+{{- if .Values.ragflow.api.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-api
+  labels:
+    {{- include "ragflow.labels" . | nindent 4 }}
+    app.kubernetes.io/component: ragflow
+spec:
+  selector:
+    {{- include "ragflow.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: ragflow
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http-api
+      name: http-api
+  type: {{ .Values.ragflow.api.service.type }}
+{{- end }}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192

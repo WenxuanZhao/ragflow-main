@@ -5,6 +5,10 @@ import {
   IFactory,
   IMyLlmValue,
   IThirdOAIModelCollection as IThirdAiModelCollection,
+<<<<<<< HEAD
+=======
+  IThirdOAIModel,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   IThirdOAIModelCollection,
 } from '@/interfaces/database/llm';
 import {
@@ -13,6 +17,10 @@ import {
 } from '@/interfaces/request/llm';
 import userService from '@/services/user-service';
 import { sortLLmFactoryListBySpecifiedOrder } from '@/utils/common-util';
+<<<<<<< HEAD
+=======
+import { getLLMIconName, getRealModelName } from '@/utils/llm-util';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Flex, message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
@@ -43,7 +51,11 @@ export const useSelectLlmOptions = () => {
       return {
         label: key,
         options: value.map((x) => ({
+<<<<<<< HEAD
           label: x.llm_name,
+=======
+          label: getRealModelName(x.llm_name),
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
           value: `${x.llm_name}@${x.fid}`,
           disabled: !x.available,
         })),
@@ -54,6 +66,7 @@ export const useSelectLlmOptions = () => {
   return embeddingModelOptions;
 };
 
+<<<<<<< HEAD
 const getLLMIconName = (fid: string, llm_name: string) => {
   if (fid === 'FastEmbed') {
     return llm_name.split('/').at(0) ?? '';
@@ -61,10 +74,53 @@ const getLLMIconName = (fid: string, llm_name: string) => {
 
   return fid;
 };
+=======
+function buildLlmOptionsWithIcon(x: IThirdOAIModel) {
+  return {
+    label: (
+      <Flex align="center" gap={6}>
+        <LlmIcon
+          name={getLLMIconName(x.fid, x.llm_name)}
+          width={26}
+          height={26}
+          size={'small'}
+        />
+        <span>{getRealModelName(x.llm_name)}</span>
+      </Flex>
+    ),
+    value: `${x.llm_name}@${x.fid}`,
+    disabled: !x.available,
+  };
+}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 export const useSelectLlmOptionsByModelType = () => {
   const llmInfo: IThirdOAIModelCollection = useFetchLlmList();
 
+<<<<<<< HEAD
+=======
+  const groupImage2TextOptions = () => {
+    const modelType = LlmModelType.Image2text;
+    const modelTag = modelType.toUpperCase();
+
+    return Object.entries(llmInfo)
+      .map(([key, value]) => {
+        return {
+          label: key,
+          options: value
+            .filter(
+              (x) =>
+                (x.model_type.includes(modelType) ||
+                  (x.tags && x.tags.includes(modelTag))) &&
+                x.available,
+            )
+            .map(buildLlmOptionsWithIcon),
+        };
+      })
+      .filter((x) => x.options.length > 0);
+  };
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   const groupOptionsByModelType = (modelType: LlmModelType) => {
     return Object.entries(llmInfo)
       .filter(([, value]) =>
@@ -79,6 +135,7 @@ export const useSelectLlmOptionsByModelType = () => {
                 (modelType ? x.model_type.includes(modelType) : true) &&
                 x.available,
             )
+<<<<<<< HEAD
             .map((x) => ({
               label: (
                 <Flex align="center" gap={6}>
@@ -94,6 +151,9 @@ export const useSelectLlmOptionsByModelType = () => {
               value: `${x.llm_name}@${x.fid}`,
               disabled: !x.available,
             })),
+=======
+            .map(buildLlmOptionsWithIcon),
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         };
       })
       .filter((x) => x.options.length > 0);
@@ -102,7 +162,11 @@ export const useSelectLlmOptionsByModelType = () => {
   return {
     [LlmModelType.Chat]: groupOptionsByModelType(LlmModelType.Chat),
     [LlmModelType.Embedding]: groupOptionsByModelType(LlmModelType.Embedding),
+<<<<<<< HEAD
     [LlmModelType.Image2text]: groupOptionsByModelType(LlmModelType.Image2text),
+=======
+    [LlmModelType.Image2text]: groupImage2TextOptions(),
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     [LlmModelType.Speech2text]: groupOptionsByModelType(
       LlmModelType.Speech2text,
     ),
@@ -116,7 +180,15 @@ export const useComposeLlmOptionsByModelTypes = (
 ) => {
   const allOptions = useSelectLlmOptionsByModelType();
 
+<<<<<<< HEAD
   return modelTypes.reduce<DefaultOptionType[]>((pre, cur) => {
+=======
+  return modelTypes.reduce<
+    (DefaultOptionType & {
+      options: { label: JSX.Element; value: string; disabled: boolean }[];
+    })[]
+  >((pre, cur) => {
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     const options = allOptions[cur];
     options.forEach((x) => {
       const item = pre.find((y) => y.label === x.label);
@@ -175,6 +247,10 @@ export const useSelectLlmList = () => {
       name: key,
       logo: factoryList.find((x) => x.name === key)?.logo ?? '',
       ...value,
+<<<<<<< HEAD
+=======
+      llm: value.llm.map((x) => ({ ...x, name: x.name })),
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     }));
   }, [myLlmList, factoryList]);
 

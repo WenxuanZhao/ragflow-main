@@ -32,8 +32,13 @@ export function Header() {
     () => [
       { path: Routes.Datasets, name: t('knowledgeBase'), icon: Library },
       { path: Routes.Chats, name: t('chat'), icon: MessageSquareText },
+<<<<<<< HEAD
       { path: Routes.Search, name: t('search'), icon: Search },
       { path: Routes.Agent, name: t('flow'), icon: Cpu },
+=======
+      { path: Routes.Searches, name: t('search'), icon: Search },
+      { path: Routes.Agents, name: t('flow'), icon: Cpu },
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       { path: Routes.Files, name: t('fileManager'), icon: File },
     ],
     [t],

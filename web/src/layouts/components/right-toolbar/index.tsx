@@ -9,7 +9,11 @@ import { useTheme } from '@/components/theme-provider';
 import { LanguageList, LanguageMap } from '@/constants/common';
 import { useChangeLanguage } from '@/hooks/logic-hooks';
 import { useFetchUserInfo } from '@/hooks/user-setting-hooks';
+<<<<<<< HEAD
 import { MoonIcon, SunIcon } from 'lucide-react';
+=======
+import { CircleHelp, MoonIcon, SunIcon } from 'lucide-react';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import styled from './index.less';
 
 const Circle = ({ children, ...restProps }: React.PropsWithChildren) => {
@@ -24,6 +28,13 @@ const handleGithubCLick = () => {
   window.open('https://github.com/infiniflow/ragflow', 'target');
 };
 
+<<<<<<< HEAD
+=======
+const handleDocHelpCLick = () => {
+  window.open('https://ragflow.io/docs/dev/category/guides', 'target');
+};
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 const RightToolBar = () => {
   const { t } = useTranslate('common');
   const changeLanguage = useChangeLanguage();
@@ -64,6 +75,12 @@ const RightToolBar = () => {
           <GithubOutlined onClick={handleGithubCLick} />
         </Circle>
         <Circle>
+<<<<<<< HEAD
+=======
+          <CircleHelp className="size-4" onClick={handleDocHelpCLick} />
+        </Circle>
+        <Circle>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
           {theme === 'dark' ? (
             <MoonIcon onClick={onMoonClick} size={20} />
           ) : (

@@ -19,18 +19,29 @@ import os
 import math
 import numpy as np
 import cv2
+<<<<<<< HEAD
 from copy import deepcopy
 
 import onnxruntime as ort
 from huggingface_hub import snapshot_download
+=======
+from functools import cmp_to_key
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 from api.utils.file_utils import get_project_base_directory
 from .operators import *  # noqa: F403
 from .operators import preprocess
 from . import operators
+<<<<<<< HEAD
 
 
 class Recognizer(object):
+=======
+from .ocr import load_model
+
+class Recognizer:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, label_list, task_name, model_dir=None):
         """
         If you have trouble downloading HuggingFace models, -_^ this might help!!
@@ -47,6 +58,7 @@ class Recognizer(object):
             model_dir = os.path.join(
                         get_project_base_directory(),
                         "rag/res/deepdoc")
+<<<<<<< HEAD
             model_file_path = os.path.join(model_dir, task_name + ".onnx")
             if not os.path.exists(model_file_path):
                 model_dir = snapshot_download(repo_id="InfiniFlow/deepdoc",
@@ -92,6 +104,9 @@ class Recognizer(object):
             self.ort_sess = ort.InferenceSession(model_file_path, providers=['CPUExecutionProvider'])
             self.run_options.add_run_config_entry("memory.enable_memory_arena_shrinkage", "cpu")
             logging.info(f"Recognizer {task_name} uses CPU")
+=======
+        self.ort_sess, self.run_options = load_model(model_dir, task_name)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         self.input_names = [node.name for node in self.ort_sess.get_inputs()]
         self.output_names = [node.name for node in self.ort_sess.get_outputs()]
         self.input_shape = self.ort_sess.get_inputs()[0].shape[2:4]
@@ -99,6 +114,7 @@ class Recognizer(object):
 
     @staticmethod
     def sort_Y_firstly(arr, threashold):
+<<<<<<< HEAD
         # sort using y1 first and then x1
         arr = sorted(arr, key=lambda r: (r["top"], r["x0"]))
         for i in range(len(arr) - 1):
@@ -123,6 +139,24 @@ class Recognizer(object):
                     tmp = deepcopy(arr[j]) if copy else arr[j]
                     arr[j] = deepcopy(arr[j + 1]) if copy else arr[j + 1]
                     arr[j + 1] = deepcopy(tmp) if copy else tmp
+=======
+        def cmp(c1, c2):
+            diff = c1["top"] - c2["top"]
+            if abs(diff) < threashold:
+                diff = c1["x0"] - c2["x0"]
+            return diff
+        arr = sorted(arr, key=cmp_to_key(cmp))
+        return arr
+
+    @staticmethod
+    def sort_X_firstly(arr, threashold):
+        def cmp(c1, c2):
+            diff = c1["x0"] - c2["x0"]
+            if abs(diff) < threashold:
+                diff = c1["top"] - c2["top"]
+            return diff
+        arr = sorted(arr, key=cmp_to_key(cmp))
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         return arr
 
     @staticmethod
@@ -145,8 +179,11 @@ class Recognizer(object):
                     arr[j + 1] = tmp
         return arr
 
+<<<<<<< HEAD
         return sorted(arr, key=lambda r: (r.get("C", r["x0"]), r["top"]))
 
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     @staticmethod
     def sort_R_firstly(arr, thr=0):
         # sort using y1 first and then x1

@@ -17,6 +17,10 @@ import json
 import logging
 from functools import reduce, partial
 import networkx as nx
+<<<<<<< HEAD
+=======
+import trio
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 from api import settings
 from graphrag.general.community_reports_extractor import CommunityReportsExtractor
@@ -41,18 +45,36 @@ class Dealer:
                  embed_bdl=None,
                  callback=None
                  ):
+<<<<<<< HEAD
         docids = list(set([docid for docid,_ in chunks]))
         self.llm_bdl = llm_bdl
         self.embed_bdl = embed_bdl
         ext = extractor(self.llm_bdl, language=language,
+=======
+        self.tenant_id = tenant_id
+        self.kb_id = kb_id
+        self.chunks = chunks
+        self.llm_bdl = llm_bdl
+        self.embed_bdl = embed_bdl
+        self.ext = extractor(self.llm_bdl, language=language,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                         entity_types=entity_types,
                         get_entity=partial(get_entity, tenant_id, kb_id),
                         set_entity=partial(set_entity, tenant_id, kb_id, self.embed_bdl),
                         get_relation=partial(get_relation, tenant_id, kb_id),
                         set_relation=partial(set_relation, tenant_id, kb_id, self.embed_bdl)
                         )
+<<<<<<< HEAD
         ents, rels = ext(chunks, callback)
         self.graph = nx.Graph()
+=======
+        self.graph = nx.Graph()
+        self.callback = callback
+
+    async def __call__(self):
+        docids = list(set([docid for docid, _ in self.chunks]))
+        ents, rels = await self.ext(self.chunks, self.callback)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         for en in ents:
             self.graph.add_node(en["entity_name"], entity_type=en["entity_type"])#, description=en["description"])
 
@@ -64,6 +86,7 @@ class Dealer:
                 #description=rel["description"]
             )
 
+<<<<<<< HEAD
         with RedisDistributedLock(kb_id, 60*60):
             old_graph, old_doc_ids = get_graph(tenant_id, kb_id)
             if old_graph is not None:
@@ -74,6 +97,18 @@ class Dealer:
                 docids.extend(old_doc_ids)
                 docids = list(set(docids))
             set_graph(tenant_id, kb_id, self.graph, docids)
+=======
+        with RedisDistributedLock(self.kb_id, 60*60):
+            old_graph, old_doc_ids = get_graph(self.tenant_id, self.kb_id)
+            if old_graph is not None:
+                logging.info("Merge with an exiting graph...................")
+                self.graph = reduce(graph_merge, [old_graph, self.graph])
+            update_nodes_pagerank_nhop_neighbour(self.tenant_id, self.kb_id, self.graph, 2)
+            if old_doc_ids:
+                docids.extend(old_doc_ids)
+                docids = list(set(docids))
+            set_graph(self.tenant_id, self.kb_id, self.graph, docids)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 
 class WithResolution(Dealer):
@@ -84,6 +119,7 @@ class WithResolution(Dealer):
                  embed_bdl=None,
                  callback=None
                  ):
+<<<<<<< HEAD
         self.llm_bdl = llm_bdl
         self.embed_bdl = embed_bdl
 
@@ -125,6 +161,52 @@ class WithResolution(Dealer):
             "kb_id": kb_id,
             "entity_kwd": reso.removed_entities
         }, search.index_name(tenant_id), kb_id)
+=======
+        self.tenant_id = tenant_id
+        self.kb_id = kb_id
+        self.llm_bdl = llm_bdl
+        self.embed_bdl = embed_bdl
+        self.callback = callback
+    async def __call__(self):
+        with RedisDistributedLock(self.kb_id, 60*60):
+            self.graph, doc_ids = await trio.to_thread.run_sync(lambda: get_graph(self.tenant_id, self.kb_id))
+            if not self.graph:
+                logging.error(f"Faild to fetch the graph. tenant_id:{self.kb_id}, kb_id:{self.kb_id}")
+                if self.callback:
+                    self.callback(-1, msg="Faild to fetch the graph.")
+                return
+
+            if self.callback:
+                self.callback(msg="Fetch the existing graph.")
+            er = EntityResolution(self.llm_bdl,
+                                  get_entity=partial(get_entity, self.tenant_id, self.kb_id),
+                                  set_entity=partial(set_entity, self.tenant_id, self.kb_id, self.embed_bdl),
+                                  get_relation=partial(get_relation, self.tenant_id, self.kb_id),
+                                  set_relation=partial(set_relation, self.tenant_id, self.kb_id, self.embed_bdl))
+            reso = await er(self.graph)
+            self.graph = reso.graph
+            logging.info("Graph resolution is done. Remove {} nodes.".format(len(reso.removed_entities)))
+            if self.callback:
+                self.callback(msg="Graph resolution is done. Remove {} nodes.".format(len(reso.removed_entities)))
+            await trio.to_thread.run_sync(lambda: update_nodes_pagerank_nhop_neighbour(self.tenant_id, self.kb_id, self.graph, 2))
+            await trio.to_thread.run_sync(lambda: set_graph(self.tenant_id, self.kb_id, self.graph, doc_ids))
+
+        await trio.to_thread.run_sync(lambda: settings.docStoreConn.delete({
+            "knowledge_graph_kwd": "relation",
+            "kb_id": self.kb_id,
+            "from_entity_kwd": reso.removed_entities
+        }, search.index_name(self.tenant_id), self.kb_id))
+        await trio.to_thread.run_sync(lambda: settings.docStoreConn.delete({
+            "knowledge_graph_kwd": "relation",
+            "kb_id": self.kb_id,
+            "to_entity_kwd": reso.removed_entities
+        }, search.index_name(self.tenant_id), self.kb_id))
+        await trio.to_thread.run_sync(lambda: settings.docStoreConn.delete({
+            "knowledge_graph_kwd": "entity",
+            "kb_id": self.kb_id,
+            "entity_kwd": reso.removed_entities
+        }, search.index_name(self.tenant_id), self.kb_id))
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 
 class WithCommunity(Dealer):
@@ -136,10 +218,16 @@ class WithCommunity(Dealer):
                  callback=None
                  ):
 
+<<<<<<< HEAD
+=======
+        self.tenant_id = tenant_id
+        self.kb_id = kb_id
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         self.community_structure = None
         self.community_reports = None
         self.llm_bdl = llm_bdl
         self.embed_bdl = embed_bdl
+<<<<<<< HEAD
 
         with RedisDistributedLock(kb_id, 60*60):
             self.graph, doc_ids = get_graph(tenant_id, kb_id)
@@ -168,6 +256,37 @@ class WithCommunity(Dealer):
             "knowledge_graph_kwd": "community_report",
             "kb_id": kb_id
         }, search.index_name(tenant_id), kb_id)
+=======
+        self.callback = callback
+    async def __call__(self):
+        with RedisDistributedLock(self.kb_id, 60*60):
+            self.graph, doc_ids = get_graph(self.tenant_id, self.kb_id)
+            if not self.graph:
+                logging.error(f"Faild to fetch the graph. tenant_id:{self.kb_id}, kb_id:{self.kb_id}")
+                if self.callback:
+                    self.callback(-1, msg="Faild to fetch the graph.")
+                return
+            if self.callback:
+                self.callback(msg="Fetch the existing graph.")
+
+            cr = CommunityReportsExtractor(self.llm_bdl,
+                                  get_entity=partial(get_entity, self.tenant_id, self.kb_id),
+                                  set_entity=partial(set_entity, self.tenant_id, self.kb_id, self.embed_bdl),
+                                  get_relation=partial(get_relation, self.tenant_id, self.kb_id),
+                                  set_relation=partial(set_relation, self.tenant_id, self.kb_id, self.embed_bdl))
+            cr = await cr(self.graph, callback=self.callback)
+            self.community_structure = cr.structured_output
+            self.community_reports = cr.output
+            await trio.to_thread.run_sync(lambda: set_graph(self.tenant_id, self.kb_id, self.graph, doc_ids))
+
+        if self.callback:
+            self.callback(msg="Graph community extraction is done. Indexing {} reports.".format(len(cr.structured_output)))
+
+        await trio.to_thread.run_sync(lambda: settings.docStoreConn.delete({
+            "knowledge_graph_kwd": "community_report",
+            "kb_id": self.kb_id
+        }, search.index_name(self.tenant_id), self.kb_id))
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
         for stru, rep in zip(self.community_structure, self.community_reports):
             obj = {
@@ -183,7 +302,11 @@ class WithCommunity(Dealer):
                 "weight_flt": stru["weight"],
                 "entities_kwd": stru["entities"],
                 "important_kwd": stru["entities"],
+<<<<<<< HEAD
                 "kb_id": kb_id,
+=======
+                "kb_id": self.kb_id,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 "source_id": doc_ids,
                 "available_int": 0
             }
@@ -193,5 +316,9 @@ class WithCommunity(Dealer):
             #    chunk["q_%d_vec" % len(ebd[0])] = ebd[0]
             #except Exception as e:
             #    logging.exception(f"Fail to embed entity relation: {e}")
+<<<<<<< HEAD
             settings.docStoreConn.insert([{"id": chunk_id(chunk), **chunk}], search.index_name(tenant_id))
+=======
+            await trio.to_thread.run_sync(lambda: settings.docStoreConn.insert([{"id": chunk_id(chunk), **chunk}], search.index_name(self.tenant_id)))
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 

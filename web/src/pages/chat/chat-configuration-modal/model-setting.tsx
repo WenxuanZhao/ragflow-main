@@ -3,8 +3,17 @@ import { useEffect } from 'react';
 import { ISegmentedContentProps } from '../interface';
 
 import LlmSettingItems from '@/components/llm-setting-items';
+<<<<<<< HEAD
 import { variableEnabledFieldMap } from '@/constants/chat';
 import { Variable } from '@/interfaces/database/chat';
+=======
+import {
+  ChatVariableEnabledField,
+  variableEnabledFieldMap,
+} from '@/constants/chat';
+import { Variable } from '@/interfaces/database/chat';
+import { setInitialChatVariableEnabledFieldValue } from '@/utils/chat';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import styles from './index.less';
 
 const ModelSetting = ({
@@ -23,7 +32,13 @@ const ModelSetting = ({
       >((pre, field) => {
         pre[field] =
           initialLlmSetting === undefined
+<<<<<<< HEAD
             ? true
+=======
+            ? setInitialChatVariableEnabledFieldValue(
+                field as ChatVariableEnabledField,
+              )
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             : !!initialLlmSetting[
                 variableEnabledFieldMap[
                   field as keyof typeof variableEnabledFieldMap

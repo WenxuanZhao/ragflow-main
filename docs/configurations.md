@@ -3,7 +3,11 @@ sidebar_position: 1
 slug: /configurations
 ---
 
+<<<<<<< HEAD
 # Configurations
+=======
+# Configuration
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 Configurations for deploying RAGFlow via Docker.
 
@@ -15,7 +19,11 @@ When it comes to system configurations, you will need to manage the following fi
 - [service_conf.yaml.template](https://github.com/infiniflow/ragflow/blob/main/docker/service_conf.yaml.template): Configures the back-end services. It specifies the system-level configuration for RAGFlow and is used by its API server and task executor. Upon container startup, the `service_conf.yaml` file will be generated based on this template file. This process replaces any environment variables within the template, allowing for dynamic configuration tailored to the container's environment.
 - [docker-compose.yml](https://github.com/infiniflow/ragflow/blob/main/docker/docker-compose.yml): The Docker Compose file for starting up the RAGFlow service.
 
+<<<<<<< HEAD
 To update the default HTTP serving port (80), go to [docker-compose.yml](./docker/docker-compose.yml) and change `80:80`
+=======
+To update the default HTTP serving port (80), go to [docker-compose.yml](https://github.com/infiniflow/ragflow/blob/main/docker/docker-compose.yml) and change `80:80`
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 to `<YOUR_SERVING_PORT>:80`.
 
 :::tip NOTE
@@ -97,8 +105,13 @@ The [.env](https://github.com/infiniflow/ragflow/blob/main/docker/.env) file con
 - `RAGFLOW-IMAGE`  
   The Docker image edition. Available editions:  
   
+<<<<<<< HEAD
   - `infiniflow/ragflow:v0.16.0-slim` (default): The RAGFlow Docker image without embedding models.  
   - `infiniflow/ragflow:v0.16.0`: The RAGFlow Docker image with embedding models including:
+=======
+  - `infiniflow/ragflow:v0.17.0-slim` (default): The RAGFlow Docker image without embedding models.  
+  - `infiniflow/ragflow:v0.17.0`: The RAGFlow Docker image with embedding models including:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     - Built-in embedding models:
       - `BAAI/bge-large-zh-v1.5` 
       - `BAAI/bge-reranker-v2-m3`

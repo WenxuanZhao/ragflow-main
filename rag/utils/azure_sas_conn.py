@@ -24,7 +24,11 @@ from azure.storage.blob import ContainerClient
 
 
 @singleton
+<<<<<<< HEAD
 class RAGFlowAzureSasBlob(object):
+=======
+class RAGFlowAzureSasBlob:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self):
         self.conn = None
         self.container_url = os.getenv('CONTAINER_URL', settings.AZURE["container_url"])

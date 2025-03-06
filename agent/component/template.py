@@ -57,7 +57,11 @@ class Template(ComponentBase):
                     res.append({"key": r.group(1), "name": p["name"]})
                     key_set.add(r.group(1))
                 continue
+<<<<<<< HEAD
             cpn_nm = self._canvas.get_compnent_name(cpn_id)
+=======
+            cpn_nm = self._canvas.get_component_name(cpn_id)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             if not cpn_nm:
                 continue
             res.append({"key": cpn_id, "name": cpn_nm})

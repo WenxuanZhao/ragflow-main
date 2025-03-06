@@ -71,11 +71,21 @@ def upload():
     if not e:
         raise LookupError("Can't find this knowledgebase!")
 
+<<<<<<< HEAD
     err, _ = FileService.upload_document(kb, file_objs, current_user.id)
     if err:
         return get_json_result(
             data=False, message="\n".join(err), code=settings.RetCode.SERVER_ERROR)
     return get_json_result(data=True)
+=======
+    err, files = FileService.upload_document(kb, file_objs, current_user.id)
+    files = [f[0] for f in files] # remove the blob
+    
+    if err:
+        return get_json_result(
+            data=files, message="\n".join(err), code=settings.RetCode.SERVER_ERROR)
+    return get_json_result(data=files)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 
 @manager.route('/web_crawl', methods=['POST'])  # noqa: F821

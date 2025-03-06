@@ -16,18 +16,31 @@ export const useGetBeginNodeDataQuery = () => {
   return getBeginNodeDataQuery;
 };
 
+<<<<<<< HEAD
 export const useGetBeginNodeDataQueryIsEmpty = () => {
   const [isBeginNodeDataQueryEmpty, setIsBeginNodeDataQueryEmpty] =
+=======
+export const useGetBeginNodeDataQueryIsSafe = () => {
+  const [isBeginNodeDataQuerySafe, setIsBeginNodeDataQuerySafe] =
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     useState(false);
   const getBeginNodeDataQuery = useGetBeginNodeDataQuery();
   const nodes = useGraphStore((state) => state.nodes);
 
   useEffect(() => {
     const query: BeginQuery[] = getBeginNodeDataQuery();
+<<<<<<< HEAD
     setIsBeginNodeDataQueryEmpty(query.length === 0);
   }, [getBeginNodeDataQuery, nodes]);
 
   return isBeginNodeDataQueryEmpty;
+=======
+    const isSafe = !query.some((q) => !q.optional && q.type === 'file');
+    setIsBeginNodeDataQuerySafe(isSafe);
+  }, [getBeginNodeDataQuery, nodes]);
+
+  return isBeginNodeDataQuerySafe;
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 };
 
 // exclude nodes with branches

@@ -59,7 +59,11 @@ const NodeHeader = ({
       >
         <OperatorIcon
           name={label as Operator}
+<<<<<<< HEAD
           color={operatorMap[label as Operator].color}
+=======
+          color={operatorMap[label as Operator]?.color}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         ></OperatorIcon>
         <span className="truncate text-center font-semibold text-sm">
           {name}

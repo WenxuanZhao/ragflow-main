@@ -1,8 +1,20 @@
 #!/usr/bin/env python3
+<<<<<<< HEAD
 #
 # Install this script's dependencies with pip3:
 # pip3 install huggingface-hub nltk
 
+=======
+
+# PEP 723 metadata
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#   "huggingface-hub",
+#   "nltk",
+# ]
+# ///
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 from huggingface_hub import snapshot_download
 import nltk

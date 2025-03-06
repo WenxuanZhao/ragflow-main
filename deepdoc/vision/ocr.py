@@ -31,6 +31,10 @@ import onnxruntime as ort
 
 from .postprocess import build_post_process
 
+<<<<<<< HEAD
+=======
+loaded_models = {}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 def transform(data, ops=None):
     """ transform """
@@ -67,6 +71,15 @@ def create_operators(op_param_list, global_config=None):
 
 def load_model(model_dir, nm):
     model_file_path = os.path.join(model_dir, nm + ".onnx")
+<<<<<<< HEAD
+=======
+    global loaded_models
+    loaded_model = loaded_models.get(model_file_path)
+    if loaded_model:
+        logging.info(f"load_model {model_file_path} reuses cached model")
+        return loaded_model
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     if not os.path.exists(model_file_path):
         raise ValueError("not find model file path {}".format(
             model_file_path))
@@ -102,18 +115,32 @@ def load_model(model_dir, nm):
             provider_options=[cuda_provider_options]
             )
         run_options.add_run_config_entry("memory.enable_memory_arena_shrinkage", "gpu:0")
+<<<<<<< HEAD
         logging.info(f"TextRecognizer {nm} uses GPU")
+=======
+        logging.info(f"load_model {model_file_path} uses GPU")
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     else:
         sess = ort.InferenceSession(
             model_file_path,
             options=options,
             providers=['CPUExecutionProvider'])
         run_options.add_run_config_entry("memory.enable_memory_arena_shrinkage", "cpu")
+<<<<<<< HEAD
         logging.info(f"TextRecognizer {nm} uses CPU")
     return sess, sess.get_inputs()[0], run_options
 
 
 class TextRecognizer(object):
+=======
+        logging.info(f"load_model {model_file_path} uses CPU")
+    loaded_model = (sess, run_options)
+    loaded_models[model_file_path] = loaded_model
+    return loaded_model
+
+
+class TextRecognizer:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, model_dir):
         self.rec_image_shape = [int(v) for v in "3, 48, 320".split(",")]
         self.rec_batch_num = 16
@@ -123,7 +150,12 @@ class TextRecognizer(object):
             "use_space_char": True
         }
         self.postprocess_op = build_post_process(postprocess_params)
+<<<<<<< HEAD
         self.predictor, self.input_tensor, self.run_options = load_model(model_dir, 'rec')
+=======
+        self.predictor, self.run_options = load_model(model_dir, 'rec')
+        self.input_tensor = self.predictor.get_inputs()[0]
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
     def resize_norm_img(self, img, max_wh_ratio):
         imgC, imgH, imgW = self.rec_image_shape
@@ -383,7 +415,11 @@ class TextRecognizer(object):
         return rec_res, time.time() - st
 
 
+<<<<<<< HEAD
 class TextDetector(object):
+=======
+class TextDetector:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, model_dir):
         pre_process_list = [{
             'DetResizeForTest': {
@@ -408,7 +444,12 @@ class TextDetector(object):
                               "unclip_ratio": 1.5, "use_dilation": False, "score_mode": "fast", "box_type": "quad"}
 
         self.postprocess_op = build_post_process(postprocess_params)
+<<<<<<< HEAD
         self.predictor, self.input_tensor, self.run_options = load_model(model_dir, 'det')
+=======
+        self.predictor, self.run_options = load_model(model_dir, 'det')
+        self.input_tensor = self.predictor.get_inputs()[0]
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
         img_h, img_w = self.input_tensor.shape[2:]
         if isinstance(img_h, str) or isinstance(img_w, str):
@@ -495,7 +536,11 @@ class TextDetector(object):
         return dt_boxes, time.time() - st
 
 
+<<<<<<< HEAD
 class OCR(object):
+=======
+class OCR:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, model_dir=None):
         """
         If you have trouble downloading HuggingFace models, -_^ this might help!!
@@ -609,6 +654,19 @@ class OCR(object):
             return ""
         return text
 
+<<<<<<< HEAD
+=======
+    def recognize_batch(self, img_list):
+        rec_res, elapse = self.text_recognizer(img_list)
+        texts = []
+        for i in range(len(rec_res)):
+            text, score = rec_res[i]
+            if score < self.drop_score:
+                text = ""
+            texts.append(text)
+        return texts
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __call__(self, img, cls=True):
         time_dict = {'det': 0, 'rec': 0, 'cls': 0, 'all': 0}
 

@@ -66,7 +66,11 @@ class Dealer:
         except Exception as e:
             logging.error("Fail to load synonym!" + str(e))
 
+<<<<<<< HEAD
     def lookup(self, tk):
+=======
+    def lookup(self, tk, topn=8):
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         if re.match(r"[a-z]+$", tk):
             res = list(set([re.sub("_", " ", syn.name().split(".")[0]) for syn in wordnet.synsets(tk)]) - set([tk]))
             return [t for t in res if t]
@@ -76,7 +80,11 @@ class Dealer:
         res = self.dictionary.get(re.sub(r"[ \t]+", " ", tk.lower()), [])
         if isinstance(res, str):
             res = [res]
+<<<<<<< HEAD
         return res
+=======
+        return res[:topn]
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 
 if __name__ == '__main__':

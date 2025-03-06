@@ -24,6 +24,7 @@ export enum ProfileSettingRouteKey {
   Logout = 'logout',
 }
 
+<<<<<<< HEAD
 // Please lowercase the file name
 export const IconMap = {
   'Tongyi-Qianwen': 'tongyi',
@@ -75,6 +76,8 @@ export const IconMap = {
   GPUStack: 'gpustack',
 };
 
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 export const TimezoneList = [
   'UTC-11\tPacific/Midway',
   'UTC-11\tPacific/Niue',

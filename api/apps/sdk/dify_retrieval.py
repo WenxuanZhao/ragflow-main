@@ -16,11 +16,18 @@
 from flask import request, jsonify
 
 from api.db import LLMType
+<<<<<<< HEAD
 from api.db.services.dialog_service import label_question
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 from api.db.services.knowledgebase_service import KnowledgebaseService
 from api.db.services.llm_service import LLMBundle
 from api import settings
 from api.utils.api_utils import validate_request, build_error_result, apikey_required
+<<<<<<< HEAD
+=======
+from rag.app.tag import label_question
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 
 @manager.route('/dify/retrieval', methods=['POST'])  # noqa: F821

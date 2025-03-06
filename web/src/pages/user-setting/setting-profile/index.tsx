@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+import { LanguageList, LanguageMap } from '@/constants/common';
+import { useTranslate } from '@/hooks/common-hooks';
+import { useChangeLanguage } from '@/hooks/logic-hooks';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { useFetchUserInfo, useSaveSetting } from '@/hooks/user-setting-hooks';
 import {
   getBase64FromUploadFileList,
@@ -16,15 +22,21 @@ import {
   Upload,
   UploadFile,
 } from 'antd';
+<<<<<<< HEAD
 import camelCase from 'lodash/camelCase';
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { useEffect } from 'react';
 import SettingTitle from '../components/setting-title';
 import { TimezoneList } from '../constants';
 import { useValidateSubmittable } from '../hooks';
+<<<<<<< HEAD
 
 import { LanguageList } from '@/constants/common';
 import { useTranslate } from '@/hooks/common-hooks';
 import { useChangeLanguage } from '@/hooks/logic-hooks';
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import parentStyles from '../index.less';
 import styles from './index.less';
 
@@ -155,7 +167,11 @@ const UserSettingProfile = () => {
             >
               {LanguageList.map((x) => (
                 <Option value={x} key={x}>
+<<<<<<< HEAD
                   {t(camelCase(x), { keyPrefix: 'common' })}
+=======
+                  {LanguageMap[x as keyof typeof LanguageMap]}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 </Option>
               ))}
             </Select>

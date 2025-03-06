@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { PlusOutlined } from '@ant-design/icons';
 import { Form, Input, message, Select, Switch, Upload } from 'antd';
 import classNames from 'classnames';
@@ -13,6 +14,45 @@ const AssistantSetting = ({ show, form }: ISegmentedContentProps) => {
   const { t } = useTranslate('chat');
   const { data } = useFetchTenantInfo(true);
 
+=======
+import KnowledgeBaseItem from '@/components/knowledge-base-item';
+import { useTranslate } from '@/hooks/common-hooks';
+import { useFetchTenantInfo } from '@/hooks/user-setting-hooks';
+import { PlusOutlined } from '@ant-design/icons';
+import { Form, Input, message, Select, Switch, Typography, Upload } from 'antd';
+import classNames from 'classnames';
+import { useCallback } from 'react';
+import { ISegmentedContentProps } from '../interface';
+
+import styles from './index.less';
+
+const emptyResponseField = ['prompt_config', 'empty_response'];
+
+const AssistantSetting = ({
+  show,
+  form,
+  setHasError,
+}: ISegmentedContentProps) => {
+  const { t } = useTranslate('chat');
+  const { data } = useFetchTenantInfo(true);
+
+  const handleChange = useCallback(() => {
+    const kbIds = form.getFieldValue('kb_ids');
+    const emptyResponse = form.getFieldValue(emptyResponseField);
+
+    const required =
+      emptyResponse && ((Array.isArray(kbIds) && kbIds.length === 0) || !kbIds);
+
+    setHasError(required);
+    form.setFields([
+      {
+        name: emptyResponseField,
+        errors: required ? [t('emptyResponseMessage')] : [],
+      },
+    ]);
+  }, [form, setHasError, t]);
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
@@ -31,7 +71,11 @@ const AssistantSetting = ({ show, form }: ISegmentedContentProps) => {
     [data, form],
   );
 
+<<<<<<< HEAD
   const uploadButtion = (
+=======
+  const uploadButton = (
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     <button style={{ border: 0, background: 'none' }} type="button">
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>{t('upload', { keyPrefix: 'common' })}</div>
@@ -66,7 +110,11 @@ const AssistantSetting = ({ show, form }: ISegmentedContentProps) => {
           beforeUpload={() => false}
           showUploadList={{ showPreviewIcon: false, showRemoveIcon: false }}
         >
+<<<<<<< HEAD
           {show ? uploadButtion : null}
+=======
+          {show ? uploadButton : null}
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         </Upload>
       </Form.Item>
       <Form.Item
@@ -84,11 +132,19 @@ const AssistantSetting = ({ show, form }: ISegmentedContentProps) => {
         />
       </Form.Item>
       <Form.Item
+<<<<<<< HEAD
         name={['prompt_config', 'empty_response']}
         label={t('emptyResponse')}
         tooltip={t('emptyResponseTip')}
       >
         <Input placeholder="" />
+=======
+        name={emptyResponseField}
+        label={t('emptyResponse')}
+        tooltip={t('emptyResponseTip')}
+      >
+        <Input placeholder="" onChange={handleChange} />
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       </Form.Item>
       <Form.Item
         name={['prompt_config', 'prologue']}
@@ -116,6 +172,7 @@ const AssistantSetting = ({ show, form }: ISegmentedContentProps) => {
       >
         <Switch />
       </Form.Item>
+<<<<<<< HEAD
       {/* <Form.Item
         label={t('selfRag')}
         valuePropName="checked"
@@ -125,6 +182,8 @@ const AssistantSetting = ({ show, form }: ISegmentedContentProps) => {
       >
         <Switch />
       </Form.Item> */}
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       <Form.Item
         label={t('tts')}
         valuePropName="checked"
@@ -134,7 +193,24 @@ const AssistantSetting = ({ show, form }: ISegmentedContentProps) => {
       >
         <Switch onChange={handleTtsChange} />
       </Form.Item>
+<<<<<<< HEAD
       <KnowledgeBaseItem></KnowledgeBaseItem>
+=======
+      <Form.Item label={'Tavily API Key'} tooltip={t('tavilyApiKeyTip')}>
+        <div className="flex flex-col gap-1">
+          <Form.Item name={['prompt_config', 'tavily_api_key']} noStyle>
+            <Input.Password placeholder={t('tavilyApiKeyMessage')} />
+          </Form.Item>
+          <Typography.Link href="https://app.tavily.com/home" target={'_blank'}>
+            {t('tavilyApiKeyHelp')}
+          </Typography.Link>
+        </div>
+      </Form.Item>
+      <KnowledgeBaseItem
+        required={false}
+        onChange={handleChange}
+      ></KnowledgeBaseItem>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     </section>
   );
 };

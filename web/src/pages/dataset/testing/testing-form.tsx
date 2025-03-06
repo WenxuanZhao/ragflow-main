@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+<<<<<<< HEAD
 import {
   Select,
   SelectContent,
@@ -24,6 +25,22 @@ import {
 import { FormSlider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
 
+=======
+import { RAGFlowSelect } from '@/components/ui/select';
+import { FormSlider } from '@/components/ui/slider';
+import { Textarea } from '@/components/ui/textarea';
+
+const options = [
+  { label: 'xx', value: 'xx' },
+  { label: 'ii', value: 'ii' },
+];
+
+const groupOptions = [
+  { label: 'scsdv', options },
+  { label: 'thtyu', options: [{ label: 'jj', value: 'jj' }] },
+];
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 const formSchema = z.object({
   username: z.number().min(2, {
     message: 'Username must be at least 2 characters.',
@@ -95,6 +112,7 @@ export default function TestingForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
+<<<<<<< HEAD
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="bg-colors-background-inverse-weak">
@@ -107,6 +125,14 @@ export default function TestingForm() {
                   <SelectItem value="m@support.com">m@support.com</SelectItem>
                 </SelectContent>
               </Select>
+=======
+              <RAGFlowSelect
+                value={field.value}
+                onChange={field.onChange}
+                FormControlComponent={FormControl}
+                options={groupOptions}
+              ></RAGFlowSelect>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
               <FormDescription>
                 This is your public display name.
               </FormDescription>

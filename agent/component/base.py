@@ -555,7 +555,11 @@ class ComponentBase(ABC):
                     eles.extend(self._canvas.get_component(cpn_id)["obj"]._param.query)
                     continue
 
+<<<<<<< HEAD
                 eles.append({"name": self._canvas.get_compnent_name(cpn_id), "key": cpn_id})
+=======
+                eles.append({"name": self._canvas.get_component_name(cpn_id), "key": cpn_id})
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             else:
                 eles.append({"key": q["value"], "name": q["value"], "value": q["value"]})
         return eles

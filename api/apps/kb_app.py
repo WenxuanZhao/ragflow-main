@@ -14,7 +14,10 @@
 #  limitations under the License.
 #
 import json
+<<<<<<< HEAD
 import logging
+=======
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import os
 
 from flask import request
@@ -300,11 +303,20 @@ def knowledge_graph(kb_id):
         "kb_id": [kb_id],
         "knowledge_graph_kwd": ["graph"]
     }
+<<<<<<< HEAD
     obj = {"graph": {}, "mind_map": {}}
     try:
         sres = settings.retrievaler.search(req, search.index_name(kb.tenant_id), [kb_id])
     except Exception as e:
         logging.exception(e)
+=======
+
+    obj = {"graph": {}, "mind_map": {}}
+    if not settings.docStoreConn.indexExist(search.index_name(kb.tenant_id), kb_id):
+        return get_json_result(data=obj)
+    sres = settings.retrievaler.search(req, search.index_name(kb.tenant_id), [kb_id])
+    if not len(sres.ids):
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         return get_json_result(data=obj)
 
     for id in sres.ids[:1]:
@@ -318,6 +330,13 @@ def knowledge_graph(kb_id):
 
     if "nodes" in obj["graph"]:
         obj["graph"]["nodes"] = sorted(obj["graph"]["nodes"], key=lambda x: x.get("pagerank", 0), reverse=True)[:256]
+<<<<<<< HEAD
     if "edges" in obj["graph"]:
         obj["graph"]["edges"] = sorted(obj["graph"]["edges"], key=lambda x: x.get("weight", 0), reverse=True)[:128]
+=======
+        if "edges" in obj["graph"]:
+            node_id_set = { o["id"] for o in obj["graph"]["nodes"] }
+            filtered_edges = [o for o in obj["graph"]["edges"] if o["source"] != o["target"] and o["source"] in node_id_set and o["target"] in node_id_set]
+            obj["graph"]["edges"] = sorted(filtered_edges, key=lambda x: x.get("weight", 0), reverse=True)[:128]
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     return get_json_result(data=obj)

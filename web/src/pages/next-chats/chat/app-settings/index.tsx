@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { Button } from '@/components/ui/button';
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -35,15 +39,32 @@ export function AppSettings() {
       <div className="text-2xl font-bold mb-4 text-colors-text-neutral-strong px-6">
         App settings
       </div>
+<<<<<<< HEAD
       <div className="overflow-auto max-h-[88vh] px-6 space-y-6">
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
+=======
+      <div className="overflow-auto max-h-[81vh] px-6 ">
+        <FormProvider {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             <ChatBasicSetting></ChatBasicSetting>
             <ChatPromptEngine></ChatPromptEngine>
             <ChatModelSettings></ChatModelSettings>
           </form>
         </FormProvider>
       </div>
+<<<<<<< HEAD
+=======
+      <div className="p-6 text-center">
+        <p className="text-colors-text-neutral-weak mb-1">
+          There are unsaved changes
+        </p>
+        <Button variant={'tertiary'} className="w-full">
+          Update
+        </Button>
+      </div>
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     </section>
   );
 }

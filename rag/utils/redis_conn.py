@@ -24,7 +24,11 @@ from rag import settings
 from rag.utils import singleton
 
 
+<<<<<<< HEAD
 class Payload:
+=======
+class RedisMsg:
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     def __init__(self, consumer, queue_name, group_name, msg_id, message):
         self.__consumer = consumer
         self.__queue_name = queue_name
@@ -43,6 +47,12 @@ class Payload:
     def get_message(self):
         return self.__message
 
+<<<<<<< HEAD
+=======
+    def get_msg_id(self):
+        return self.__msg_id
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 
 @singleton
 class RedisDB:
@@ -206,9 +216,14 @@ class RedisDB:
                 )
         return False
 
+<<<<<<< HEAD
     def queue_consumer(
         self, queue_name, group_name, consumer_name, msg_id=b">"
     ) -> Payload:
+=======
+    def queue_consumer(self, queue_name, group_name, consumer_name, msg_id=b">") -> RedisMsg:
+        """https://redis.io/docs/latest/commands/xreadgroup/"""
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         try:
             group_info = self.REDIS.xinfo_groups(queue_name)
             if not any(e["name"] == group_name for e in group_info):
@@ -217,15 +232,26 @@ class RedisDB:
                 "groupname": group_name,
                 "consumername": consumer_name,
                 "count": 1,
+<<<<<<< HEAD
                 "block": 10000,
+=======
+                "block": 5,
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
                 "streams": {queue_name: msg_id},
             }
             messages = self.REDIS.xreadgroup(**args)
             if not messages:
                 return None
             stream, element_list = messages[0]
+<<<<<<< HEAD
             msg_id, payload = element_list[0]
             res = Payload(self.REDIS, queue_name, group_name, msg_id, payload)
+=======
+            if not element_list:
+                return None
+            msg_id, payload = element_list[0]
+            res = RedisMsg(self.REDIS, queue_name, group_name, msg_id, payload)
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             return res
         except Exception as e:
             if "key" in str(e):
@@ -239,11 +265,16 @@ class RedisDB:
                 )
         return None
 
+<<<<<<< HEAD
     def get_unacked_for(self, consumer_name, queue_name, group_name):
+=======
+    def get_unacked_iterator(self, queue_name, group_name, consumer_name):
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         try:
             group_info = self.REDIS.xinfo_groups(queue_name)
             if not any(e["name"] == group_name for e in group_info):
                 return
+<<<<<<< HEAD
             pendings = self.REDIS.xpending_range(
                 queue_name,
                 group_name,
@@ -258,11 +289,25 @@ class RedisDB:
             msg = self.REDIS.xrange(queue_name, min=msg_id, count=1)
             _, payload = msg[0]
             return Payload(self.REDIS, queue_name, group_name, msg_id, payload)
+=======
+            current_min = 0
+            while True:
+                payload = self.queue_consumer(queue_name, group_name, consumer_name, current_min)
+                if not payload:
+                    return
+                current_min = payload.get_msg_id()
+                logging.info(f"RedisDB.get_unacked_iterator {consumer_name} msg_id {current_min}")
+                yield payload
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         except Exception as e:
             if "key" in str(e):
                 return
             logging.exception(
+<<<<<<< HEAD
                 "RedisDB.get_unacked_for " + consumer_name + " got exception: " + str(e)
+=======
+                "RedisDB.get_unacked_iterator " + consumer_name + " got exception: "
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
             )
             self.__open__()
 

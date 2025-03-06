@@ -119,6 +119,29 @@ export const useFetchNextDialogList = () => {
   return { data, loading, refetch };
 };
 
+<<<<<<< HEAD
+=======
+export const useFetchChatAppList = () => {
+  const {
+    data,
+    isFetching: loading,
+    refetch,
+  } = useQuery<IDialog[]>({
+    queryKey: ['fetchChatAppList'],
+    initialData: [],
+    gcTime: 0,
+    refetchOnWindowFocus: false,
+    queryFn: async () => {
+      const { data } = await chatService.listDialog();
+
+      return data?.data ?? [];
+    },
+  });
+
+  return { data, loading, refetch };
+};
+
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 export const useSetNextDialog = () => {
   const queryClient = useQueryClient();
 
@@ -233,8 +256,17 @@ export const useFetchNextConversationList = () => {
     enabled: !!dialogId,
     queryFn: async () => {
       const { data } = await chatService.listConversation({ dialogId });
+<<<<<<< HEAD
       if (data.code === 0 && data.data.length > 0) {
         handleClickConversation(data.data[0].id, '');
+=======
+      if (data.code === 0) {
+        if (data.data.length > 0) {
+          handleClickConversation(data.data[0].id, '');
+        } else {
+          handleClickConversation('', '');
+        }
+>>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
       }
       return data?.data;
     },
