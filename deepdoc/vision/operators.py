@@ -147,7 +147,7 @@ class ToCHWImage(object):
 
 class Fasttext(object):
     def __init__(self, path="None", **kwargs):
-        import fasttext
+        import fasttext as fasttext
         self.fast_model = fasttext.load_model(path)
 
     def __call__(self, data):

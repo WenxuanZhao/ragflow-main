@@ -485,7 +485,7 @@ class XinferenceCV(Base):
         return res.choices[0].message.content.strip(), res.usage.total_tokens
 
 class GeminiCV(Base):
-    def __init__(self, key, model_name="gemini-1.0-pro-vision-latest", lang="Chinese", **kwargs):
+    def __init__(self, key, model_name="gemini-2.0-flash-exp", lang="Chinese", **kwargs):
         from google.generativeai import client, GenerativeModel
         client.configure(api_key=key)
         _client = client.get_default_generative_client()

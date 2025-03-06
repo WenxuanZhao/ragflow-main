@@ -1,5 +1,9 @@
 {
-  "extends": "./src/.umi/tsconfig.json",
-  "@@/*": ["src/.umi/*"],
-  "root": ["../*"],
+          "extends": "./src/.umi/tsconfig.json",
+          "@@/*": ["src/.umi/*"],
+          "root": ["../*"],
 }
+
+
+
+

@@ -949,68 +949,74 @@
         {
             "name": "Gemini",
             "logo": "",
-            "tags": "LLM,Multimodal generation&understanding,TTS",
+            "tags": "LLM,CHAT,TEXT EMBEDDING,Multimodal generation&understanding,TTS",
             "status": "1",
             "llm": [
                 {
                     "llm_name": "gemini-2.0-flash-exp",
-                    "tags": "LLM,Multimodal generation,1024K",
+                    "tags": "LLM,CHAT,Multimodal generation,1024K",
                     "max_tokens": 1048576,
                     "model_type": "chat"
                 },
                 {
                     "llm_name": "gemini-2.0-flash-exp",
-                    "tags": "LLM,Multimodal understanding,1024K",
+                    "tags": "LLM,CHAT,Multimodal understanding,1024K",
                     "max_tokens": 1048576,
                     "model_type": "image2text"
                 },
                 {
                     "llm_name": "gemini-2.0-flash-exp",
-                    "tags": "LLM,Multimodal understanding,1024K",
+                    "tags": "LLM,CHAT,Multimodal understanding,1024K",
                     "max_tokens": 1048576,
                     "model_type": "speech2text"
                 },
                 {
                     "llm_name": "gemini-2.0-flash-exp",
-                    "tags": "LLM,Multimodal generation,1024K",
+                    "tags": "LLM,CHAT,Multimodal generation,1024K",
                     "max_tokens": 1048576,
                     "model_type": "tts"
                 },              
                 {
                     "llm_name": "gemini-2.0-flash-thinking-exp-01-21",
-                    "tags": "LLM,chat,2048K",
+                    "tags": "LLM,CHAT,chat,2048K",
                     "max_tokens": 1048576,
                     "model_type": "chat"
                 },
                 {
                     "llm_name": "gemini-2.0-flash-thinking-exp-01-21",
-                    "tags": "LLM,Multimodal understanding,1024K",
+                    "tags": "LLM,CHAT,Multimodal understanding,1024K",
                     "max_tokens": 1048576,
                     "model_type": "image2text"
                 },
                 {
                     "llm_name": "gemini-2.0-flash-thinking-exp-01-21",
-                    "tags": "LLM,Multimodal understanding,1024K",
+                    "tags": "LLM,CHAT,Multimodal understanding,1024K",
                     "max_tokens": 1048576,
                     "model_type": "speech2text"
                 },
                 {
                     "llm_name": "gemini-2.0-pro-exp-02-05",
-                    "tags": "LLM,chat,2048K",
+                    "tags": "LLM,CHAT,chat,2048K",
                     "max_tokens": 2097152,
                     "model_type": "chat"
                 },
                 {
                     "llm_name": "gemini-2.0-pro-exp-02-05",
-                    "tags": "LLM,Multimodal understanding,1024K",
+                    "tags": "LLM,CHAT,Multimodal understanding,1024K",
                     "max_tokens": 2097152,
                     "model_type": "image2text"
                 },
                 {
                     "llm_name": "gemini-2.0-pro-exp-02-05",
-                    "tags": "LLM,Multimodal understanding,1024K",
+                    "tags": "LLM,CHAT,Multimodal understanding,1024K",
                     "max_tokens": 2097152,
                     "model_type": "speech2text"
+                },
+                {
+                    "llm_name": "models/text-embedding-004",
+                    "tags": "LLM,TEXT EMBEDDING",
+                    "max_tokens": 2048,
+                    "model_type": "embedding"
                 }
             ]
         },
