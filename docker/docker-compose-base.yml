@@ -3,11 +3,7 @@ services:
     container_name: ragflow-es-01
     profiles:
       - elasticsearch
-<<<<<<< HEAD
-    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
-=======
     image: elasticsearch:${STACK_VERSION}
->>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     volumes:
       - esdata01:/usr/share/elasticsearch/data
     ports:

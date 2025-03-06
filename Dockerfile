@@ -59,16 +59,6 @@ RUN --mount=type=cache,id=ragflow_apt,target=/var/cache/apt,sharing=locked \
     apt install -y default-jdk && \
     apt install -y libatk-bridge2.0-0 && \
     apt install -y libpython3-dev libgtk-4-1 libnss3 xdg-utils libgbm-dev && \
-<<<<<<< HEAD
-    apt install -y python3-pip pipx nginx unzip curl wget git vim less
-
-RUN if [ "$NEED_MIRROR" == "1" ]; then \
-        pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
-        pip3 config set global.trusted-host pypi.tuna.tsinghua.edu.cn; \
-        mkdir -p /etc/uv && \
-        echo "[[index]]" > /etc/uv/uv.toml && \
-        echo 'url = "https://pypi.tuna.tsinghua.edu.cn/simple"' >> /etc/uv/uv.toml && \
-=======
     apt install -y libjemalloc-dev && \
     apt install -y python3-pip pipx nginx unzip curl wget git vim less
 
@@ -78,7 +68,6 @@ RUN if [ "$NEED_MIRROR" == "1" ]; then \
         mkdir -p /etc/uv && \
         echo "[[index]]" > /etc/uv/uv.toml && \
         echo 'url = "https://mirrors.aliyun.com/pypi/simple"' >> /etc/uv/uv.toml && \
->>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
         echo "default = true" >> /etc/uv/uv.toml; \
     fi; \
     pipx install uv
@@ -162,15 +151,9 @@ COPY pyproject.toml uv.lock ./
 # uv records index url into uv.lock but doesn't failover among multiple indexes
 RUN --mount=type=cache,id=ragflow_uv,target=/root/.cache/uv,sharing=locked \
     if [ "$NEED_MIRROR" == "1" ]; then \
-<<<<<<< HEAD
-        sed -i 's|pypi.org|pypi.tuna.tsinghua.edu.cn|g' uv.lock; \
-    else \
-        sed -i 's|pypi.tuna.tsinghua.edu.cn|pypi.org|g' uv.lock; \
-=======
         sed -i 's|pypi.org|mirrors.aliyun.com/pypi|g' uv.lock; \
     else \
         sed -i 's|mirrors.aliyun.com/pypi|pypi.org|g' uv.lock; \
->>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
     fi; \
     if [ "$LIGHTEN" == "1" ]; then \
         uv sync --python 3.10 --frozen; \
@@ -214,10 +197,7 @@ COPY deepdoc deepdoc
 COPY rag rag
 COPY agent agent
 COPY graphrag graphrag
-<<<<<<< HEAD
-=======
 COPY agentic_reasoning agentic_reasoning
->>>>>>> 4f9504305a238b4fd3346c988bb1e7872b79d192
 COPY pyproject.toml uv.lock ./
 
 COPY docker/service_conf.yaml.template ./conf/service_conf.yaml.template
